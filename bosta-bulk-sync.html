@@ -196,23 +196,19 @@
       <table id="ordersTable">
         <thead>
           <tr>
-            <th class="check-col" rowspan="2"><input type="checkbox" id="checkAll" onchange="toggleAll(this)" /></th>
-            <th class="section-shopify" colspan="5">بيانات شوبيفاي</th>
-            <th class="section-shopify" colspan="5">ميتافيلدز بوسطة (شوبيفاي)</th>
-            <th class="section-bosta" colspan="1">بوسطة</th>
-          </tr>
-          <tr>
-            <th class="section-shopify">رقم الأوردر</th>
-            <th class="section-shopify">العميل</th>
-            <th class="section-shopify">رقم العميل</th>
-            <th class="section-shopify">تاريخ الإنشاء</th>
-            <th class="section-shopify">الإجمالي</th>
-            <th class="section-shopify">Tracking #</th>
-            <th class="section-shopify">Webhook</th>
-            <th class="section-shopify">Order Type</th>
-            <th class="section-shopify">Attempts</th>
-            <th class="section-shopify">Last Sync</th>
-            <th class="section-bosta">Preview</th>
+            <th class="check-col"><input type="checkbox" id="checkAll" onchange="toggleAll(this)" /></th>
+            <th>رقم الأوردر</th>
+            <th>العميل</th>
+            <th>رقم العميل</th>
+            <th>تاريخ الإنشاء</th>
+            <th>الإجمالي</th>
+            <th>رقم التتبع</th>
+            <th>الحالة</th>
+            <th>النوع</th>
+            <th>عدد محاولات التوصيل</th>
+            <th>آخر تسجيل</th>
+            <th>عدد الظهور</th>
+            <th>حالة التحديث</th>
           </tr>
         </thead>
         <tbody id="ordersBody"></tbody>
@@ -294,7 +290,7 @@
       ? `<span style="color:var(--blue);font-size:11px">جاري...</span>`
       : pData.error
       ? `<span style="color:var(--accent);font-size:11px">✗ ${pData.error}</span>`
-      : `<span style="background:${deliveryCount > 1 ? '#fecaca' : 'transparent'};color:${deliveryCount > 1 ? 'var(--accent)' : 'var(--green)'};font-size:11px;font-weight:600;padding:2px 6px;border-radius:4px">✓ ${deliveryCount} delivery</span>`;
+      : `<span style="background:${deliveryCount > 1 ? '#fecaca' : 'transparent'};color:${deliveryCount > 1 ? 'var(--accent)' : 'var(--green)'};font-size:13px;font-weight:700;padding:2px 8px;border-radius:4px;font-family:var(--mono)">${deliveryCount}</span>`;
     const multiDelivery = !pData?.loading && !pData?.error && deliveryCount > 1;
 
     const mainRow = `
@@ -311,12 +307,13 @@
         <td><span class="mono text-muted" style="font-size:11px">${o.bostaAttempts || '—'}</span></td>
         <td><span class="mono text-dim" style="font-size:11px">${o.bostaLastSync || '—'}</span></td>
         <td>${previewCell}</td>
+        <td id="sync-status-${i}" style="font-size:12px;font-family:var(--mono)"></td>
       </tr>`;
 
     const previewRow = pData && pData.deliveries?.length
       ? buildPreviewTable(o, i, pData.deliveries)
       : pData?.loading
-      ? `<tr class="preview-data-row" id="preview-${i}" style="background:#dbeafe;"><td colspan="12"><div style="display:flex;align-items:center;gap:8px;padding:8px 12px;font-size:12px;color:var(--text-muted)"><div class="spinner spinner-blue"></div>جاري جلب بيانات بوسطة...</div></td></tr>`
+      ? `<tr class="preview-data-row" id="preview-${i}" style="background:#F2CEED;font-size:11px;"><td colspan="13"><div style="display:flex;align-items:center;gap:8px;padding:8px 12px;font-size:12px;color:var(--text-muted)"><div class="spinner spinner-blue"></div>جاري جلب بيانات بوسطة...</div></td></tr>`
       : '';
 
     return mainRow + previewRow;
@@ -330,7 +327,7 @@
       const radioId    = `del-${orderIdx}-${di}`;
       const isSelected = selectedDeliveries[order.name]?.trackingNumber === d.trackingNumber;
       return `
-        <tr class="preview-data-row" id="preview-${orderIdx}-${di}" style="background:#dbeafe;">
+        <tr class="preview-data-row" id="preview-${orderIdx}-${di}" style="background:#F2CEED;font-size:11px;">
           <td class="check-col" style="text-align:center">
             <input type="radio" name="${radioName}" id="${radioId}"
               ${isSelected ? 'checked' : ''}
@@ -340,12 +337,13 @@
           <td></td>
           <td></td>
           <td style="text-align:center"><span class="mono text-dim" style="font-size:11px">${fmtDate(d.createdAt)}</span></td>
-          <td style="text-align:center">—</td>
+          <td style="text-align:center"><span class="mono" style="font-size:11px;direction:ltr">${d.cod != null ? d.cod.toLocaleString('en-US') : '—'}</span></td>
           <td><span class="mono" style="font-size:11px;direction:ltr">${d.trackingNumber || '—'}</span></td>
           <td>${stateBadge(d.state)}</td>
           <td><span class="mono text-muted" style="font-size:11px">${d.orderType || '—'}</span></td>
           <td><span class="mono text-muted" style="font-size:11px;direction:ltr">${d.attempts ?? '—'}</span></td>
           <td>—</td>
+          <td></td>
           <td></td>
         </tr>`;
     }).join('');
@@ -474,22 +472,19 @@
         return;
       }
 
-      // Update rows
+      // Update sync-status cells
       const resultMap = {};
       for (const r of data.results) resultMap[r.name] = r;
 
       document.querySelectorAll('.row-check:checked').forEach(c => {
-        const o   = allOrders[parseInt(c.dataset.idx)];
+        const idx = parseInt(c.dataset.idx);
+        const o   = allOrders[idx];
         const r   = resultMap[o.name];
-        const row = document.getElementById(`row-${c.dataset.idx}`);
-        if (!row) return;
+        const statusCell = document.getElementById(`sync-status-${idx}`);
         if (r?.success) {
-          row.classList.add('row-success');
-          // Update tracking cell display
-          o.bostaTracking  = r.trackingNumber;
-          o.bostaLastSync  = new Date().toISOString().split('T')[0];
+          if (statusCell) statusCell.innerHTML = '<span style="color:var(--green)">✓ تم</span>';
         } else {
-          row.classList.add('row-error');
+          if (statusCell) statusCell.innerHTML = `<span style="color:var(--accent)">✗ ${r?.error || 'خطأ'}</span>`;
         }
       });
 
@@ -502,6 +497,12 @@
         ${failed > 0 ? `<span class="summary-num" style="color:var(--accent)">✗ ${failed} فشل</span>` : ''}
         <span style="color:var(--text-muted)">من أصل ${total}</span>`;
       bar.style.display = 'flex';
+
+      // Auto re-fetch Shopify data after sync
+      if (succeeded > 0) {
+        setFetchStatus('جاري تحديث بيانات شوبيفاي...', 'loading');
+        setTimeout(() => fetchOrders(), 1500);
+      }
 
     } catch (err) {
       alert(`Connection error: ${err.message}`);
