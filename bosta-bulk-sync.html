@@ -157,15 +157,15 @@
       <div class="filter-grid">
         <div class="field-group">
           <label>من تاريخ</label>
-          <input type="date" id="dateFrom" />
+          <input type="date" id="dateFrom" onclick="this.showPicker && this.showPicker()" style="cursor:pointer" />
         </div>
         <div class="field-group">
           <label>إلى تاريخ</label>
-          <input type="date" id="dateTo" />
+          <input type="date" id="dateTo" onclick="this.showPicker && this.showPicker()" style="cursor:pointer" />
         </div>
         <div style="display:flex;align-items:flex-end;">
           <button class="btn btn-primary" id="fetchBtn" onclick="fetchOrders()" style="width:100%">
-            🔎 جلب الأوردرات
+            🔎 استعلم عن الأوردرات
           </button>
         </div>
       </div>
@@ -287,22 +287,24 @@
 
   function buildOrderRows(o, i) {
     const pData = previewData[o.name];
+    const deliveryCount = (pData?.deliveries||[]).length;
     const previewCell = !pData
       ? `<span class="text-dim" style="font-size:11px">—</span>`
       : pData.loading
       ? `<span style="color:var(--blue);font-size:11px">جاري...</span>`
       : pData.error
       ? `<span style="color:var(--accent);font-size:11px">✗ ${pData.error}</span>`
-      : `<span style="color:var(--green);font-size:11px">✓ ${(pData.deliveries||[]).length} delivery</span>`;
+      : `<span style="color:${deliveryCount > 1 ? 'var(--accent)' : 'var(--green)'};font-size:11px;font-weight:600">✓ ${deliveryCount} delivery</span>`;
+    const multiDelivery = !pData?.loading && !pData?.error && deliveryCount > 1;
 
     const mainRow = `
-      <tr class="order-row" id="row-${i}" data-idx="${i}">
+      <tr class="order-row" id="row-${i}" data-idx="${i}" style="${multiDelivery ? 'background:#fff0f0;' : ''}">
         <td class="check-col"><input type="checkbox" class="row-check" data-idx="${i}" data-name="${o.name}" onchange="updateSelection()" /></td>
         <td><span class="mono" style="font-weight:500">${o.name}</span></td>
         <td>${o.customerName}</td>
         <td><span class="mono text-muted" style="font-size:11px;direction:ltr">${o.phone || '—'}</span></td>
         <td><span class="mono text-dim" style="font-size:11px">${fmtDate(o.createdAt)}</span></td>
-        <td><span class="mono" style="font-size:12px">${parseFloat(o.total).toLocaleString('ar-EG')} ج.م</span></td>
+        <td><span class="mono" style="font-size:12px;direction:ltr">${parseFloat(o.total).toLocaleString('en-US')}</span></td>
         <td><span class="mono text-muted" style="font-size:11px">${o.bostaTracking || '—'}</span></td>
         <td>${o.bostaWebhook ? stateBadge(o.bostaWebhook) : '<span class="text-dim">—</span>'}</td>
         <td><span class="mono text-muted" style="font-size:11px">${o.bostaOrderType || '—'}</span></td>
@@ -314,7 +316,7 @@
     const previewRow = pData && pData.deliveries?.length
       ? buildPreviewTable(o, i, pData.deliveries)
       : pData?.loading
-      ? `<tr class="preview-data-row" id="preview-${i}" style="background:#f0f4ff;"><td colspan="12"><div style="display:flex;align-items:center;gap:8px;padding:8px 12px;font-size:12px;color:var(--text-muted)"><div class="spinner spinner-blue"></div>جاري جلب بيانات بوسطة...</div></td></tr>`
+      ? `<tr class="preview-data-row" id="preview-${i}" style="background:#e8f0fe;border-right:3px solid var(--blue);"><td colspan="12"><div style="display:flex;align-items:center;gap:8px;padding:8px 12px;font-size:12px;color:var(--text-muted)"><div class="spinner spinner-blue"></div>جاري جلب بيانات بوسطة...</div></td></tr>`
       : '';
 
     return mainRow + previewRow;
@@ -328,7 +330,7 @@
       const radioId    = `del-${orderIdx}-${di}`;
       const isSelected = selectedDeliveries[order.name]?.trackingNumber === d.trackingNumber;
       return `
-        <tr class="preview-data-row" id="preview-${orderIdx}-${di}" style="background:#f0f4ff;">
+        <tr class="preview-data-row" id="preview-${orderIdx}-${di}" style="background:#e8f0fe;border-right:3px solid var(--blue);">
           <td class="check-col" style="text-align:center">
             <input type="radio" name="${radioName}" id="${radioId}"
               ${isSelected ? 'checked' : ''}
