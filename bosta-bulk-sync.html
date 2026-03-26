@@ -7,152 +7,133 @@
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg: #f5f6fa;
-      --surface: #ffffff;
-      --border: #e2e5ef;
-      --border-light: #eef0f7;
-      --accent: #e63030;
-      --accent2: #ff5c5c;
-      --accent-bg: #fff0f0;
-      --text: #1a1d2e;
-      --text-muted: #6b7080;
-      --text-dim: #9ca3b4;
-      --green: #16a34a;
-      --green-bg: #f0fdf4;
-      --green-border: #bbf7d0;
-      --yellow: #d97706;
-      --yellow-bg: #fffbeb;
-      --yellow-border: #fde68a;
-      --blue: #2563eb;
-      --blue-bg: #eff6ff;
-      --blue-border: #bfdbfe;
-      --orange: #ea580c;
-      --orange-bg: #fff7ed;
-      --orange-border: #fed7aa;
-      --red-bg: #fef2f2;
-      --red-border: #fecaca;
-      --mono: 'JetBrains Mono', monospace;
-      --sans: 'IBM Plex Sans Arabic', sans-serif;
-      --radius: 10px;
-      --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
-      --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+      --bg: #f5f6fa; --surface: #ffffff; --border: #e2e5ef; --border-light: #eef0f7;
+      --accent: #e63030; --accent2: #ff5c5c; --accent-bg: #fff0f0;
+      --text: #1a1d2e; --text-muted: #6b7080; --text-dim: #9ca3b4;
+      --green: #16a34a; --green-bg: #f0fdf4; --green-border: #bbf7d0;
+      --yellow: #d97706; --yellow-bg: #fffbeb; --yellow-border: #fde68a;
+      --blue: #2563eb; --blue-bg: #eff6ff; --blue-border: #bfdbfe;
+      --orange: #ea580c; --orange-bg: #fff7ed; --orange-border: #fed7aa;
+      --red-bg: #fef2f2; --red-border: #fecaca;
+      --preview-bg: #f8f9ff;
+      --mono: 'JetBrains Mono', monospace; --sans: 'IBM Plex Sans Arabic', sans-serif;
+      --radius: 10px; --shadow: 0 1px 3px rgba(0,0,0,0.08);
     }
-
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { background: var(--bg); color: var(--text); font-family: var(--sans); min-height: 100vh; padding: 32px 16px; }
-    .container { max-width: 1100px; margin: 0 auto; }
+    .container { max-width: 1200px; margin: 0 auto; }
 
-    /* Header */
-    .header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 32px; }
+    .header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 28px; }
     .header-left { display: flex; align-items: center; gap: 12px; }
     .logo { width: 36px; height: 36px; background: var(--accent); border-radius: 8px; display: flex; align-items: center; justify-content: center; }
     .logo svg { width: 18px; height: 18px; fill: white; }
-    .header h1 { font-size: 20px; font-weight: 600; color: var(--text); }
+    .header h1 { font-size: 20px; font-weight: 600; }
     .header-sub { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
     .brand { font-size: 13px; color: var(--text-dim); font-family: var(--mono); }
 
-    /* Card */
     .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); margin-bottom: 20px; }
-    .card-header { padding: 16px 20px; border-bottom: 1px solid var(--border-light); display: flex; align-items: center; gap: 10px; }
+    .card-header { padding: 14px 20px; border-bottom: 1px solid var(--border-light); display: flex; align-items: center; gap: 10px; }
     .card-header-icon { width: 28px; height: 28px; border-radius: 6px; background: var(--accent-bg); display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
-    .card-title { font-size: 14px; font-weight: 600; color: var(--text); }
+    .card-title { font-size: 14px; font-weight: 600; }
     .card-body { padding: 20px; }
 
-    /* Filter */
     .filter-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; align-items: end; }
     .field-group { display: flex; flex-direction: column; gap: 6px; }
-    .field-group label { font-size: 12px; font-weight: 500; color: var(--text-muted); letter-spacing: 0.03em; }
+    .field-group label { font-size: 12px; font-weight: 500; color: var(--text-muted); }
     input[type="date"], input[type="text"] {
       background: var(--bg); border: 1px solid var(--border); border-radius: 8px;
       padding: 10px 14px; color: var(--text); font-family: var(--mono); font-size: 13px;
-      outline: none; transition: border-color 0.15s, box-shadow 0.15s; width: 100%;
+      outline: none; transition: border-color 0.15s; width: 100%;
     }
-    input[type="date"]:focus, input[type="text"]:focus {
-      border-color: var(--accent); box-shadow: 0 0 0 3px rgba(230,48,48,0.08);
-    }
+    input[type="date"]:focus, input[type="text"]:focus { border-color: var(--accent); }
     .worker-row { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border-light); }
     .worker-row label { font-size: 11px; color: var(--text-dim); display: block; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.05em; }
-    .worker-row input { font-size: 12px; color: var(--text-muted); }
 
-    /* Buttons */
-    .btn { border: none; border-radius: 8px; padding: 10px 20px; font-family: var(--sans); font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.15s; display: inline-flex; align-items: center; gap: 7px; height: 42px; white-space: nowrap; }
+    .btn { border: none; border-radius: 8px; padding: 10px 18px; font-family: var(--sans); font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.15s; display: inline-flex; align-items: center; gap: 6px; height: 40px; white-space: nowrap; }
     .btn-primary { background: var(--accent); color: white; }
     .btn-primary:hover { background: var(--accent2); }
     .btn-primary:disabled { background: var(--border); color: var(--text-dim); cursor: not-allowed; }
+    .btn-blue { background: var(--blue); color: white; }
+    .btn-blue:hover { background: #1d4ed8; }
+    .btn-blue:disabled { background: var(--border); color: var(--text-dim); cursor: not-allowed; }
     .btn-success { background: var(--green); color: white; }
     .btn-success:hover { background: #15803d; }
     .btn-success:disabled { background: var(--border); color: var(--text-dim); cursor: not-allowed; }
     .btn-ghost { background: transparent; color: var(--text-muted); border: 1px solid var(--border); }
-    .btn-ghost:hover { background: var(--bg); color: var(--text); }
-    .btn-sm { padding: 6px 14px; font-size: 12px; height: 32px; }
+    .btn-ghost:hover { background: var(--bg); }
+    .btn-sm { padding: 5px 12px; font-size: 12px; height: 30px; }
 
-    /* Status */
-    .status-bar { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text-muted); margin-top: 14px; min-height: 22px; }
+    .status-bar { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text-muted); margin-top: 14px; min-height: 20px; }
     .spinner { width: 14px; height: 14px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.7s linear infinite; flex-shrink: 0; }
+    .spinner-blue { border-top-color: var(--blue); }
     @keyframes spin { to { transform: rotate(360deg); } }
     .status-bar.error { color: var(--accent); }
     .status-bar.success { color: var(--green); }
 
-    /* Toolbar */
-    .toolbar { display: flex; align-items: center; gap: 10px; padding: 14px 20px; border-bottom: 1px solid var(--border-light); flex-wrap: wrap; }
-    .toolbar-left { display: flex; align-items: center; gap: 10px; flex: 1; }
+    .toolbar { display: flex; align-items: center; gap: 10px; padding: 12px 20px; border-bottom: 1px solid var(--border-light); flex-wrap: wrap; }
+    .toolbar-left { display: flex; align-items: center; gap: 8px; flex: 1; flex-wrap: wrap; }
     .count-badge { background: var(--accent-bg); color: var(--accent); font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 20px; font-family: var(--mono); }
     .selected-badge { background: var(--blue-bg); color: var(--blue); font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 20px; font-family: var(--mono); display: none; }
     .selected-badge.visible { display: inline-block; }
+    .toolbar-actions { display: flex; gap: 8px; flex-wrap: wrap; }
 
-    /* Table */
     .table-wrap { overflow-x: auto; }
-    table { width: 100%; border-collapse: collapse; font-size: 13px; }
-    thead { background: var(--bg); }
-    th { padding: 11px 14px; text-align: right; font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; border-bottom: 1px solid var(--border); white-space: nowrap; }
-    th.check-col, td.check-col { width: 44px; text-align: center; padding: 11px 8px; }
-    td { padding: 12px 14px; border-bottom: 1px solid var(--border-light); vertical-align: middle; }
-    tr:last-child td { border-bottom: none; }
-    tr:hover td { background: var(--bg); }
-    tr.selected td { background: var(--blue-bg); }
+    table { width: 100%; border-collapse: collapse; font-size: 12px; }
+    thead { background: var(--bg); position: sticky; top: 0; z-index: 1; }
+    th { padding: 10px 12px; text-align: right; font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 2px solid var(--border); white-space: nowrap; }
+    th.check-col, td.check-col { width: 40px; text-align: center; padding: 10px 6px; }
+    td { padding: 10px 12px; border-bottom: 1px solid var(--border-light); vertical-align: middle; }
+    tr.order-row:hover td { background: var(--bg); }
+    tr.order-row.selected td { background: var(--blue-bg); }
+    tr.order-row.row-success td { background: var(--green-bg); }
+    tr.order-row.row-error td { background: var(--red-bg); }
 
-    input[type="checkbox"] { width: 15px; height: 15px; accent-color: var(--accent); cursor: pointer; }
+    /* Section headers */
+    th.section-shopify { background: #f0f4ff; color: var(--blue); border-bottom: 2px solid var(--blue-border); }
+    th.section-bosta { background: #fff0f0; color: var(--accent); border-bottom: 2px solid var(--red-border); }
 
-    .order-name { font-family: var(--mono); font-weight: 500; color: var(--text); font-size: 13px; }
-    .tracking-num { font-family: var(--mono); color: var(--text-muted); font-size: 12px; }
-    .customer-name { color: var(--text); }
-    .date-cell { color: var(--text-muted); font-size: 12px; font-family: var(--mono); }
-    .total-cell { font-family: var(--mono); font-size: 12px; color: var(--text); }
+    input[type="checkbox"] { width: 14px; height: 14px; accent-color: var(--accent); cursor: pointer; }
+    input[type="radio"] { width: 14px; height: 14px; accent-color: var(--blue); cursor: pointer; }
+
+    .mono { font-family: var(--mono); }
+    .text-muted { color: var(--text-muted); }
+    .text-dim { color: var(--text-dim); }
 
     /* State badges */
-    .badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; letter-spacing: 0.04em; }
-    .badge-empty { background: var(--bg); color: var(--text-dim); border: 1px dashed var(--border); }
+    .badge { display: inline-block; padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+    .badge-delivered  { background: var(--green-bg);  color: var(--green);  border: 1px solid var(--green-border); }
+    .badge-returned   { background: var(--red-bg);    color: var(--accent); border: 1px solid var(--red-border); }
+    .badge-exception  { background: var(--orange-bg); color: var(--orange); border: 1px solid var(--orange-border); }
+    .badge-transit    { background: var(--blue-bg);   color: var(--blue);   border: 1px solid var(--blue-border); }
+    .badge-pending    { background: var(--yellow-bg); color: var(--yellow); border: 1px solid var(--yellow-border); }
+    .badge-default    { background: var(--bg); color: var(--text-dim); border: 1px solid var(--border); }
+    .badge-empty      { background: var(--bg); color: var(--text-dim); border: 1px dashed var(--border); }
 
-    /* Row result states */
-    .row-success td { background: var(--green-bg) !important; }
-    .row-error td { background: var(--red-bg) !important; }
-    .result-cell { font-size: 12px; font-family: var(--mono); }
-    .result-ok { color: var(--green); }
-    .result-err { color: var(--accent); }
+    /* Preview rows */
+    tr.preview-row td { background: var(--preview-bg); padding: 0; border-bottom: none; }
+    .preview-inner { border-top: 2px solid var(--blue-border); }
+    .preview-header { padding: 8px 12px; background: var(--blue-bg); font-size: 11px; font-weight: 600; color: var(--blue); text-transform: uppercase; letter-spacing: 0.05em; }
+    .preview-table { width: 100%; border-collapse: collapse; }
+    .preview-table th { padding: 8px 12px; font-size: 11px; font-weight: 600; color: var(--text-muted); text-align: right; border-bottom: 1px solid var(--blue-border); background: var(--blue-bg); text-transform: uppercase; }
+    .preview-table td { padding: 9px 12px; font-size: 12px; border-bottom: 1px solid var(--border-light); }
+    .preview-table tr:last-child td { border-bottom: none; }
+    .preview-table tr:hover td { background: #f0f4ff; }
+    .preview-error { padding: 12px; color: var(--accent); font-size: 12px; }
+    .preview-empty { padding: 12px; color: var(--text-dim); font-size: 12px; }
+    .preview-loading { padding: 12px; color: var(--text-muted); font-size: 12px; display: flex; align-items: center; gap: 8px; }
 
     /* Summary */
-    .summary-bar { display: flex; align-items: center; gap: 16px; padding: 14px 20px; background: var(--green-bg); border-top: 1px solid var(--green-border); font-size: 13px; border-radius: 0 0 var(--radius) var(--radius); }
+    .summary-bar { display: flex; align-items: center; gap: 16px; padding: 12px 20px; background: var(--green-bg); border-top: 1px solid var(--green-border); font-size: 13px; border-radius: 0 0 var(--radius) var(--radius); }
     .summary-bar.has-errors { background: var(--yellow-bg); border-color: var(--yellow-border); }
     .summary-num { font-family: var(--mono); font-weight: 600; }
 
-    /* Empty state */
-    .empty-state { text-align: center; padding: 60px 20px; color: var(--text-dim); }
-    .empty-state .icon { font-size: 40px; margin-bottom: 12px; }
-    .empty-state p { font-size: 14px; }
-
-    @media (max-width: 768px) {
-      .filter-grid { grid-template-columns: 1fr 1fr; }
-      .toolbar { flex-direction: column; align-items: flex-start; }
-    }
-    @media (max-width: 500px) {
-      .filter-grid { grid-template-columns: 1fr; }
-    }
+    @media (max-width: 768px) { .filter-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 500px) { .filter-grid { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
 <div class="container">
 
-  <!-- Header -->
   <div class="header">
     <div class="header-left">
       <div class="logo">
@@ -166,7 +147,7 @@
     <span class="brand">EcomModa</span>
   </div>
 
-  <!-- Filter Card -->
+  <!-- Filter -->
   <div class="card">
     <div class="card-header">
       <div class="card-header-icon">🔍</div>
@@ -184,19 +165,19 @@
         </div>
         <div style="display:flex;align-items:flex-end;">
           <button class="btn btn-primary" id="fetchBtn" onclick="fetchOrders()" style="width:100%">
-            <span>🔎</span> جلب الأوردرات
+            🔎 جلب الأوردرات
           </button>
         </div>
       </div>
       <div class="worker-row">
         <label>Worker URL</label>
-        <input type="text" id="workerUrl" value="https://bosta-bulk-sync.ecommoda24.workers.dev" />
+        <input type="text" id="workerUrl" value="https://bosta-bulk-sync-worker.ecommoda24.workers.dev" />
       </div>
       <div class="status-bar" id="fetchStatus"></div>
     </div>
   </div>
 
-  <!-- Results Card -->
+  <!-- Results -->
   <div class="card" id="resultsCard" style="display:none;">
     <div class="toolbar">
       <div class="toolbar-left">
@@ -205,21 +186,33 @@
         <button class="btn btn-ghost btn-sm" onclick="selectAll()">تحديد الكل</button>
         <button class="btn btn-ghost btn-sm" onclick="deselectAll()">إلغاء الكل</button>
       </div>
-      <button class="btn btn-success" id="syncBtn" onclick="syncSelected()" disabled>
-        <span>⟳</span> Sync المحدد
-      </button>
+      <div class="toolbar-actions">
+        <button class="btn btn-blue" id="previewBtn" onclick="previewSelected()" disabled>👁 Preview المحدد</button>
+        <button class="btn btn-success" id="syncBtn" onclick="syncSelected()" disabled>⟳ Sync المحدد</button>
+      </div>
     </div>
 
     <div class="table-wrap">
       <table id="ordersTable">
         <thead>
           <tr>
-            <th class="check-col"><input type="checkbox" id="checkAll" onchange="toggleAll(this)" /></th>
-            <th>رقم الأوردر</th>
-            <th>العميل</th>
-            <th>تاريخ الإنشاء</th>
-            <th>الإجمالي</th>
-            <th>النتيجة</th>
+            <th class="check-col" rowspan="2"><input type="checkbox" id="checkAll" onchange="toggleAll(this)" /></th>
+            <th class="section-shopify" colspan="5">بيانات شوبيفاي</th>
+            <th class="section-shopify" colspan="5">ميتافيلدز بوسطة (شوبيفاي)</th>
+            <th class="section-bosta" colspan="1">بوسطة</th>
+          </tr>
+          <tr>
+            <th class="section-shopify">رقم الأوردر</th>
+            <th class="section-shopify">العميل</th>
+            <th class="section-shopify">رقم العميل</th>
+            <th class="section-shopify">تاريخ الإنشاء</th>
+            <th class="section-shopify">الإجمالي</th>
+            <th class="section-shopify">Tracking #</th>
+            <th class="section-shopify">Webhook</th>
+            <th class="section-shopify">Order Type</th>
+            <th class="section-shopify">Attempts</th>
+            <th class="section-shopify">Last Sync</th>
+            <th class="section-bosta">Preview</th>
           </tr>
         </thead>
         <tbody id="ordersBody"></tbody>
@@ -232,13 +225,14 @@
 </div>
 
 <script>
-  // Set default dates (last 30 days)
   const today = new Date();
   const prior = new Date(); prior.setDate(today.getDate() - 30);
   document.getElementById('dateTo').value   = today.toISOString().split('T')[0];
   document.getElementById('dateFrom').value = prior.toISOString().split('T')[0];
 
   let allOrders = [];
+  let previewData = {}; // { orderName: { deliveries, error } }
+  let selectedDeliveries = {}; // { orderName: deliveryObject }
 
   function setFetchStatus(msg, type = '') {
     const el = document.getElementById('fetchStatus');
@@ -252,60 +246,274 @@
     const from      = document.getElementById('dateFrom').value;
     const to        = document.getElementById('dateTo').value;
     const workerUrl = document.getElementById('workerUrl').value.trim();
-
     if (!from || !to) { setFetchStatus('اختر نطاق التاريخ', 'error'); return; }
 
-    document.getElementById('fetchBtn').disabled  = true;
+    document.getElementById('fetchBtn').disabled = true;
     document.getElementById('resultsCard').style.display = 'none';
+    previewData = {}; selectedDeliveries = {};
     setFetchStatus('جاري جلب الأوردرات...', 'loading');
 
     try {
       const res  = await fetch(`${workerUrl}/orders?from=${from}&to=${to}`);
       const data = await res.json();
-
       if (!res.ok || !data.success) {
         setFetchStatus(data.error || `خطأ: ${res.status}`, 'error');
         document.getElementById('fetchBtn').disabled = false;
         return;
       }
-
       allOrders = data.orders;
-
-      if (allOrders.length === 0) {
-        setFetchStatus('مفيش أوردرات بوسطة بدون tracking number في هذا النطاق', 'error');
+      if (!allOrders.length) {
+        setFetchStatus('مفيش أوردرات بوسطة في هذا النطاق', 'error');
         document.getElementById('fetchBtn').disabled = false;
         return;
       }
-
-      renderTable(allOrders);
+      renderTable();
       setFetchStatus(`تم جلب ${allOrders.length} أوردر بنجاح`, 'success');
       document.getElementById('resultsCard').style.display = 'block';
     } catch (err) {
       setFetchStatus(`Connection error: ${err.message}`, 'error');
     }
-
     document.getElementById('fetchBtn').disabled = false;
   }
 
-  function renderTable(orders) {
+  function renderTable() {
     const tbody = document.getElementById('ordersBody');
-    tbody.innerHTML = orders.map((o, i) => `
-      <tr id="row-${i}" data-idx="${i}">
-        <td class="check-col">
-          <input type="checkbox" class="row-check" data-idx="${i}" onchange="updateSelection()" />
-        </td>
-        <td><span class="order-name">${o.name}</span></td>
-        <td><span class="customer-name">${o.customerName}</span></td>
-        <td><span class="date-cell">${fmtDate(o.createdAt)}</span></td>
-        <td><span class="total-cell">${parseFloat(o.total).toLocaleString('ar-EG')} ج.م</span></td>
-        <td id="result-${i}"><span class="badge badge-empty">لم يتم</span></td>
-      </tr>
-    `).join('');
-
-    document.getElementById('countBadge').textContent   = `${orders.length} أوردر`;
-    document.getElementById('selectedBadge').classList.remove('visible');
+    tbody.innerHTML = allOrders.map((o, i) => buildOrderRows(o, i)).join('');
+    document.getElementById('countBadge').textContent = `${allOrders.length} أوردر`;
     document.getElementById('summaryBar').style.display = 'none';
     document.getElementById('checkAll').checked = false;
+    updateSelection();
+  }
+
+  function buildOrderRows(o, i) {
+    const pData = previewData[o.name];
+    const previewCell = pData
+      ? (pData.error
+          ? `<span style="color:var(--accent);font-size:11px">✗ ${pData.error}</span>`
+          : `<span style="color:var(--green);font-size:11px">✓ ${pData.deliveries.length} delivery</span>`)
+      : `<span class="text-dim" style="font-size:11px">—</span>`;
+
+    const mainRow = `
+      <tr class="order-row" id="row-${i}" data-idx="${i}">
+        <td class="check-col"><input type="checkbox" class="row-check" data-idx="${i}" data-name="${o.name}" onchange="updateSelection()" /></td>
+        <td><span class="mono" style="font-weight:500">${o.name}</span></td>
+        <td>${o.customerName}</td>
+        <td><span class="mono text-muted" style="font-size:11px">${o.phone || '—'}</span></td>
+        <td><span class="mono text-dim" style="font-size:11px">${fmtDate(o.createdAt)}</span></td>
+        <td><span class="mono" style="font-size:12px">${parseFloat(o.total).toLocaleString('ar-EG')} ج.م</span></td>
+        <td><span class="mono text-muted" style="font-size:11px">${o.bostaTracking || '—'}</span></td>
+        <td>${o.bostaWebhook ? stateBadge(o.bostaWebhook) : '<span class="text-dim">—</span>'}</td>
+        <td><span class="mono text-muted" style="font-size:11px">${o.bostaOrderType || '—'}</span></td>
+        <td><span class="mono text-muted" style="font-size:11px">${o.bostaAttempts || '—'}</span></td>
+        <td><span class="mono text-dim" style="font-size:11px">${o.bostaLastSync || '—'}</span></td>
+        <td>${previewCell}</td>
+      </tr>`;
+
+    const previewRow = pData && pData.deliveries?.length
+      ? `<tr class="preview-row" id="preview-${i}"><td colspan="12"><div class="preview-inner">${buildPreviewTable(o, i, pData.deliveries)}</div></td></tr>`
+      : pData?.loading
+      ? `<tr class="preview-row" id="preview-${i}"><td colspan="12"><div class="preview-inner"><div class="preview-loading"><div class="spinner spinner-blue"></div>جاري جلب بيانات بوسطة...</div></div></td></tr>`
+      : '';
+
+    return mainRow + previewRow;
+  }
+
+  function buildPreviewTable(order, orderIdx, deliveries) {
+    const rows = deliveries.map((d, di) => {
+      const radioName = `del-${orderIdx}`;
+      const radioId   = `del-${orderIdx}-${di}`;
+      const isSelected = selectedDeliveries[order.name]?.trackingNumber === d.trackingNumber;
+      return `
+        <tr>
+          <td style="width:36px;text-align:center">
+            <input type="radio" name="${radioName}" id="${radioId}"
+              ${isSelected ? 'checked' : ''}
+              onchange="selectDelivery('${order.name}', ${orderIdx}, ${di})" />
+          </td>
+          <td><span class="mono" style="font-size:12px">${d.trackingNumber || '—'}</span></td>
+          <td>${stateBadge(d.state)}</td>
+          <td><span class="mono text-muted" style="font-size:11px">${d.orderType || '—'}</span></td>
+          <td><span class="mono text-muted" style="font-size:11px">${d.attempts ?? '—'}</span></td>
+          <td><span class="mono text-dim" style="font-size:11px">${fmtDate(d.createdAt)}</span></td>
+        </tr>`;
+    }).join('');
+
+    return `
+      <div class="preview-header">بيانات بوسطة — ${order.name} (${deliveries.length} delivery)</div>
+      <table class="preview-table">
+        <thead>
+          <tr>
+            <th style="width:36px"></th>
+            <th>Tracking #</th>
+            <th>Status</th>
+            <th>Order Type</th>
+            <th>Attempts</th>
+            <th>Created</th>
+          </tr>
+        </thead>
+        <tbody>${rows}</tbody>
+      </table>`;
+  }
+
+  function selectDelivery(orderName, orderIdx, deliveryIdx) {
+    const pData = previewData[orderName];
+    if (!pData?.deliveries) return;
+    selectedDeliveries[orderName] = pData.deliveries[deliveryIdx];
+    updateSyncBtn();
+  }
+
+  async function previewSelected() {
+    const workerUrl = document.getElementById('workerUrl').value.trim();
+    const checks    = [...document.querySelectorAll('.row-check')].filter(c => c.checked);
+    if (!checks.length) return;
+
+    document.getElementById('previewBtn').disabled = true;
+
+    const selected = checks.map(c => {
+      const o = allOrders[parseInt(c.dataset.idx)];
+      return { id: o.id, name: o.name, idx: parseInt(c.dataset.idx) };
+    });
+
+    // Show loading rows
+    selected.forEach(s => {
+      previewData[s.name] = { loading: true };
+    });
+    rerenderRows(selected.map(s => s.idx));
+
+    try {
+      const res  = await fetch(`${workerUrl}/preview`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ orders: selected.map(s => ({ id: s.id, name: s.name })) }),
+      });
+      const data = await res.json();
+
+      if (!res.ok || !data.success) {
+        selected.forEach(s => { previewData[s.name] = { error: data.error || 'خطأ', deliveries: [] }; });
+        rerenderRows(selected.map(s => s.idx));
+        document.getElementById('previewBtn').disabled = false;
+        return;
+      }
+
+      for (const r of data.results) {
+        previewData[r.name] = { deliveries: r.deliveries || [], error: r.error };
+        // Auto-select first delivery if only one
+        if (r.deliveries?.length === 1) {
+          selectedDeliveries[r.name] = r.deliveries[0];
+        }
+      }
+
+      rerenderRows(selected.map(s => s.idx));
+      updateSyncBtn();
+    } catch (err) {
+      selected.forEach(s => { previewData[s.name] = { error: err.message, deliveries: [] }; });
+      rerenderRows(selected.map(s => s.idx));
+    }
+
+    document.getElementById('previewBtn').disabled = false;
+  }
+
+  function rerenderRows(idxList) {
+    idxList.forEach(i => {
+      const o        = allOrders[i];
+      const existing = document.getElementById(`row-${i}`);
+      const existingPreview = document.getElementById(`preview-${i}`);
+      if (!existing) return;
+
+      const temp = document.createElement('tbody');
+      temp.innerHTML = buildOrderRows(o, i);
+
+      // Preserve checkbox state
+      const wasChecked = existing.querySelector('.row-check')?.checked;
+      existing.replaceWith(temp.children[0]);
+      if (wasChecked) {
+        document.querySelector(`.row-check[data-idx="${i}"]`).checked = true;
+        document.getElementById(`row-${i}`).classList.add('selected');
+      }
+
+      // Replace or add preview row
+      const newPreview = temp.children[0]; // might be preview row
+      if (existingPreview) {
+        const nextPreview = temp.innerHTML.includes('preview-row')
+          ? (() => { const t = document.createElement('tbody'); t.innerHTML = buildOrderRows(o, i); return [...t.children].find(r => r.id === `preview-${i}`); })()
+          : null;
+        if (nextPreview) existingPreview.replaceWith(nextPreview);
+        else existingPreview.remove();
+      } else {
+        const newRow = document.getElementById(`row-${i}`);
+        const t = document.createElement('tbody');
+        t.innerHTML = buildOrderRows(o, i);
+        const pRow = [...t.children].find(r => r.id === `preview-${i}`);
+        if (pRow && newRow) newRow.after(pRow);
+      }
+    });
+  }
+
+  async function syncSelected() {
+    const workerUrl = document.getElementById('workerUrl').value.trim();
+    // Collect items: orders with a selected delivery
+    const items = [];
+    document.querySelectorAll('.row-check:checked').forEach(c => {
+      const o   = allOrders[parseInt(c.dataset.idx)];
+      const del = selectedDeliveries[o.name];
+      if (del) items.push({ orderId: o.id, orderName: o.name, delivery: del });
+    });
+
+    if (!items.length) {
+      alert('اختر delivery لكل أوردر من قسم بوسطة أولاً');
+      return;
+    }
+
+    document.getElementById('syncBtn').disabled = true;
+
+    try {
+      const res  = await fetch(`${workerUrl}/sync-bulk`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ items }),
+      });
+      const data = await res.json();
+
+      if (!res.ok || !data.success) {
+        alert(data.error || 'خطأ في الـ Sync');
+        document.getElementById('syncBtn').disabled = false;
+        return;
+      }
+
+      // Update rows
+      const resultMap = {};
+      for (const r of data.results) resultMap[r.name] = r;
+
+      document.querySelectorAll('.row-check:checked').forEach(c => {
+        const o   = allOrders[parseInt(c.dataset.idx)];
+        const r   = resultMap[o.name];
+        const row = document.getElementById(`row-${c.dataset.idx}`);
+        if (!row) return;
+        if (r?.success) {
+          row.classList.add('row-success');
+          // Update tracking cell display
+          o.bostaTracking  = r.trackingNumber;
+          o.bostaLastSync  = new Date().toISOString().split('T')[0];
+        } else {
+          row.classList.add('row-error');
+        }
+      });
+
+      const { total, succeeded, failed } = data.summary;
+      const bar = document.getElementById('summaryBar');
+      bar.className = `summary-bar${failed > 0 ? ' has-errors' : ''}`;
+      bar.innerHTML = `
+        <span>نتيجة الـ Sync:</span>
+        <span class="summary-num" style="color:var(--green)">✓ ${succeeded} نجح</span>
+        ${failed > 0 ? `<span class="summary-num" style="color:var(--accent)">✗ ${failed} فشل</span>` : ''}
+        <span style="color:var(--text-muted)">من أصل ${total}</span>`;
+      bar.style.display = 'flex';
+
+    } catch (err) {
+      alert(`Connection error: ${err.message}`);
+    }
+
+    document.getElementById('syncBtn').disabled = false;
     updateSelection();
   }
 
@@ -313,119 +521,59 @@
     const checks   = document.querySelectorAll('.row-check');
     const selected = [...checks].filter(c => c.checked);
     const badge    = document.getElementById('selectedBadge');
-    const syncBtn  = document.getElementById('syncBtn');
 
     if (selected.length > 0) {
       badge.textContent = `${selected.length} محدد`;
       badge.classList.add('visible');
-      syncBtn.disabled = false;
+      document.getElementById('previewBtn').disabled = false;
     } else {
       badge.classList.remove('visible');
-      syncBtn.disabled = true;
+      document.getElementById('previewBtn').disabled = true;
     }
 
-    // Update row highlight
     checks.forEach(c => {
       const row = document.getElementById(`row-${c.dataset.idx}`);
-      row.classList.toggle('selected', c.checked);
+      if (row) row.classList.toggle('selected', c.checked);
     });
 
-    // Update checkAll state
-    document.getElementById('checkAll').checked = selected.length === checks.length && checks.length > 0;
+    document.getElementById('checkAll').checked =
+      selected.length === checks.length && checks.length > 0;
+
+    updateSyncBtn();
+  }
+
+  function updateSyncBtn() {
+    const checks  = [...document.querySelectorAll('.row-check:checked')];
+    const hasSync = checks.some(c => {
+      const o = allOrders[parseInt(c.dataset.idx)];
+      return !!selectedDeliveries[o?.name];
+    });
+    document.getElementById('syncBtn').disabled = !hasSync;
   }
 
   function toggleAll(master) {
     document.querySelectorAll('.row-check').forEach(c => { c.checked = master.checked; });
     updateSelection();
   }
-
   function selectAll()   { document.querySelectorAll('.row-check').forEach(c => c.checked = true);  updateSelection(); }
   function deselectAll() { document.querySelectorAll('.row-check').forEach(c => c.checked = false); updateSelection(); }
 
-  async function syncSelected() {
-    const workerUrl = document.getElementById('workerUrl').value.trim();
-    const checks    = [...document.querySelectorAll('.row-check')].filter(c => c.checked);
-    if (!checks.length) return;
-
-    const selected = checks.map(c => {
-      const o = allOrders[parseInt(c.dataset.idx)];
-      return { id: o.id, name: o.name };
-    });
-
-    document.getElementById('syncBtn').disabled = true;
-
-    // Show loading on selected rows
-    checks.forEach(c => {
-      document.getElementById(`result-${c.dataset.idx}`).innerHTML =
-        `<span style="color:var(--text-dim);font-size:12px;font-family:var(--mono)">جاري...</span>`;
-    });
-
-    try {
-      const res  = await fetch(`${workerUrl}/sync-bulk`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ orders: selected }),
-      });
-      const data = await res.json();
-
-      if (!res.ok || !data.success) {
-        checks.forEach(c => {
-          document.getElementById(`result-${c.dataset.idx}`).innerHTML =
-            `<span class="result-err">خطأ في الاتصال</span>`;
-        });
-        document.getElementById('syncBtn').disabled = false;
-        return;
-      }
-
-      // Map results back to rows
-      const resultMap = {};
-      for (const r of data.results) resultMap[r.name] = r;
-
-      checks.forEach(c => {
-        const o   = allOrders[parseInt(c.dataset.idx)];
-        const r   = resultMap[o.name];
-        const row = document.getElementById(`row-${c.dataset.idx}`);
-        const cell = document.getElementById(`result-${c.dataset.idx}`);
-
-        if (r?.success) {
-          cell.innerHTML = `<span class="result-ok">✓ ${r.trackingNumber}</span>`;
-          row.classList.add('row-success');
-          row.classList.remove('selected');
-          c.checked = false;
-        } else {
-          cell.innerHTML = `<span class="result-err">✗ ${r?.error || 'خطأ'}</span>`;
-          row.classList.add('row-error');
-        }
-      });
-
-      // Show summary
-      const { total, succeeded, failed } = data.summary;
-      const summaryBar = document.getElementById('summaryBar');
-      summaryBar.className = `summary-bar${failed > 0 ? ' has-errors' : ''}`;
-      summaryBar.innerHTML = `
-        <span>نتيجة الـ Sync:</span>
-        <span class="summary-num" style="color:var(--green)">✓ ${succeeded} نجح</span>
-        ${failed > 0 ? `<span class="summary-num" style="color:var(--accent)">✗ ${failed} فشل</span>` : ''}
-        <span style="color:var(--text-muted)">من أصل ${total}</span>
-      `;
-      summaryBar.style.display = 'flex';
-      updateSelection();
-
-    } catch (err) {
-      checks.forEach(c => {
-        document.getElementById(`result-${c.dataset.idx}`).innerHTML =
-          `<span class="result-err">${err.message}</span>`;
-      });
-    }
-
-    document.getElementById('syncBtn').disabled = false;
+  function stateBadge(state) {
+    if (!state) return '<span class="badge badge-empty">—</span>';
+    const s = state.toLowerCase();
+    let cls = 'badge-default';
+    if (s.includes('delivered'))             cls = 'badge-delivered';
+    else if (s.includes('returned'))         cls = 'badge-returned';
+    else if (s.includes('exception'))        cls = 'badge-exception';
+    else if (s.includes('transit') || s.includes('picked') || s.includes('route')) cls = 'badge-transit';
+    else if (s.includes('pickup') || s.includes('requested') || s.includes('warehouse')) cls = 'badge-pending';
+    return `<span class="badge ${cls}">${state}</span>`;
   }
 
   function fmtDate(d) {
     if (!d) return '—';
-    try {
-      return new Date(d).toLocaleDateString('ar-EG', { year: 'numeric', month: 'short', day: 'numeric' });
-    } catch { return d; }
+    try { return new Date(d).toLocaleDateString('ar-EG', { year: 'numeric', month: 'short', day: 'numeric' }); }
+    catch { return d; }
   }
 </script>
 </body>
