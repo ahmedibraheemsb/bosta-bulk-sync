@@ -300,7 +300,7 @@
         <td class="check-col"><input type="checkbox" class="row-check" data-idx="${i}" data-name="${o.name}" onchange="updateSelection()" /></td>
         <td><span class="mono" style="font-weight:500">${o.name}</span></td>
         <td>${o.customerName}</td>
-        <td><span class="mono text-muted" style="font-size:11px">${o.phone || '—'}</span></td>
+        <td><span class="mono text-muted" style="font-size:11px;direction:ltr">${o.phone || '—'}</span></td>
         <td><span class="mono text-dim" style="font-size:11px">${fmtDate(o.createdAt)}</span></td>
         <td><span class="mono" style="font-size:12px">${parseFloat(o.total).toLocaleString('ar-EG')} ج.م</span></td>
         <td><span class="mono text-muted" style="font-size:11px">${o.bostaTracking || '—'}</span></td>
@@ -312,49 +312,39 @@
       </tr>`;
 
     const previewRow = pData && pData.deliveries?.length
-      ? `<tr class="preview-row" id="preview-${i}"><td colspan="12"><div class="preview-inner">${buildPreviewTable(o, i, pData.deliveries)}</div></td></tr>`
+      ? buildPreviewTable(o, i, pData.deliveries)
       : pData?.loading
-      ? `<tr class="preview-row" id="preview-${i}"><td colspan="12"><div class="preview-inner"><div class="preview-loading"><div class="spinner spinner-blue"></div>جاري جلب بيانات بوسطة...</div></div></td></tr>`
+      ? `<tr class="preview-data-row" id="preview-${i}" style="background:#f0f4ff;"><td colspan="12"><div style="display:flex;align-items:center;gap:8px;padding:8px 12px;font-size:12px;color:var(--text-muted)"><div class="spinner spinner-blue"></div>جاري جلب بيانات بوسطة...</div></td></tr>`
       : '';
 
     return mainRow + previewRow;
   }
 
   function buildPreviewTable(order, orderIdx, deliveries) {
-    const rows = deliveries.map((d, di) => {
-      const radioName = `del-${orderIdx}`;
-      const radioId   = `del-${orderIdx}-${di}`;
+    // Render preview deliveries as rows matching the main table columns:
+    // checkbox(radio) | order# | customer | phone | date(created) | total(-) | tracking | webhook(state) | orderType | attempts | lastSync(-) | preview(-)
+    return deliveries.map((d, di) => {
+      const radioName  = `del-${orderIdx}`;
+      const radioId    = `del-${orderIdx}-${di}`;
       const isSelected = selectedDeliveries[order.name]?.trackingNumber === d.trackingNumber;
       return `
-        <tr>
-          <td style="width:36px;text-align:center">
+        <tr class="preview-data-row" id="preview-${orderIdx}-${di}" style="background:#f0f4ff;">
+          <td class="check-col" style="text-align:center">
             <input type="radio" name="${radioName}" id="${radioId}"
               ${isSelected ? 'checked' : ''}
               onchange="selectDelivery('${order.name}', ${orderIdx}, ${di})" />
           </td>
-          <td><span class="mono" style="font-size:12px">${d.trackingNumber || '—'}</span></td>
+          <td><span class="mono text-dim" style="font-size:11px">↳ bosta</span></td>
+          <td colspan="3"><span class="mono text-dim" style="font-size:11px">${fmtDate(d.createdAt)}</span></td>
+          <td>—</td>
+          <td><span class="mono" style="font-size:11px;direction:ltr">${d.trackingNumber || '—'}</span></td>
           <td>${stateBadge(d.state)}</td>
           <td><span class="mono text-muted" style="font-size:11px">${d.orderType || '—'}</span></td>
-          <td><span class="mono text-muted" style="font-size:11px">${d.attempts ?? '—'}</span></td>
-          <td><span class="mono text-dim" style="font-size:11px">${fmtDate(d.createdAt)}</span></td>
+          <td><span class="mono text-muted" style="font-size:11px;direction:ltr">${d.attempts ?? '—'}</span></td>
+          <td>—</td>
+          <td></td>
         </tr>`;
     }).join('');
-
-    return `
-      <div class="preview-header">بيانات بوسطة — ${order.name} (${deliveries.length} delivery)</div>
-      <table class="preview-table">
-        <thead>
-          <tr>
-            <th style="width:36px"></th>
-            <th>Tracking #</th>
-            <th>Status</th>
-            <th>Order Type</th>
-            <th>Attempts</th>
-            <th>Created</th>
-          </tr>
-        </thead>
-        <tbody>${rows}</tbody>
-      </table>`;
   }
 
   function selectDelivery(orderName, orderIdx, deliveryIdx) {
@@ -422,9 +412,8 @@
       // Save checkbox state
       const wasChecked = document.querySelector(`.row-check[data-idx="${i}"]`)?.checked || false;
 
-      // Remove existing preview row first
-      const existingPreview = document.getElementById(`preview-${i}`);
-      if (existingPreview) existingPreview.remove();
+      // Remove existing preview rows (could be multiple)
+      document.querySelectorAll(`[id^="preview-${i}"]`).forEach(el => el.remove());
 
       // Replace main row
       const existing = document.getElementById(`row-${i}`);
@@ -443,8 +432,10 @@
         if (cb) { cb.checked = true; newMainRow.classList.add('selected'); }
       }
 
-      // Insert preview row after main row
-      if (newPreviewRow) newMainRow.after(newPreviewRow);
+      // Insert preview rows after main row (could be multiple)
+      const previewRows = [...temp.querySelectorAll(`[id^="preview-${i}"]`)];
+      let insertAfter = newMainRow;
+      previewRows.forEach(pr => { insertAfter.after(pr); insertAfter = pr; });
     });
   }
 
@@ -571,7 +562,7 @@
 
   function fmtDate(d) {
     if (!d) return '—';
-    try { return new Date(d).toLocaleDateString('ar-EG', { year: 'numeric', month: 'short', day: 'numeric' }); }
+    try { return new Date(d).toLocaleDateString('en-GB', { year: 'numeric', month: 'short', day: 'numeric' }); }
     catch { return d; }
   }
 </script>
