@@ -287,11 +287,13 @@
 
   function buildOrderRows(o, i) {
     const pData = previewData[o.name];
-    const previewCell = pData
-      ? (pData.error
-          ? `<span style="color:var(--accent);font-size:11px">✗ ${pData.error}</span>`
-          : `<span style="color:var(--green);font-size:11px">✓ ${pData.deliveries.length} delivery</span>`)
-      : `<span class="text-dim" style="font-size:11px">—</span>`;
+    const previewCell = !pData
+      ? `<span class="text-dim" style="font-size:11px">—</span>`
+      : pData.loading
+      ? `<span style="color:var(--blue);font-size:11px">جاري...</span>`
+      : pData.error
+      ? `<span style="color:var(--accent);font-size:11px">✗ ${pData.error}</span>`
+      : `<span style="color:var(--green);font-size:11px">✓ ${(pData.deliveries||[]).length} delivery</span>`;
 
     const mainRow = `
       <tr class="order-row" id="row-${i}" data-idx="${i}">
