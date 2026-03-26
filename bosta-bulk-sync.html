@@ -100,15 +100,15 @@
     .text-muted { color: var(--text-muted); }
     .text-dim { color: var(--text-dim); }
 
-    /* State badges */
-    .badge { display: inline-block; padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 600; border: none; }
-    .badge-delivered  { background: var(--green-bg);  color: var(--green);  }
-    .badge-returned   { background: var(--red-bg);    color: var(--accent); }
-    .badge-exception  { background: var(--orange-bg); color: var(--orange); }
-    .badge-transit    { background: var(--blue-bg);   color: var(--blue);   }
-    .badge-pending    { background: var(--yellow-bg); color: var(--yellow); }
-    .badge-default    { background: var(--bg); color: var(--text-dim); }
-    .badge-empty      { background: var(--bg); color: var(--text-dim); }
+    /* State badges - no background, colored text only */
+    .badge { display: inline-block; font-size: 11px; font-weight: 700; }
+    .badge-delivered  { color: var(--green);  }
+    .badge-returned   { color: var(--accent); }
+    .badge-exception  { color: var(--orange); }
+    .badge-transit    { color: var(--blue);   }
+    .badge-pending    { color: var(--yellow); }
+    .badge-default    { color: var(--text-dim); }
+    .badge-empty      { color: var(--text-dim); }
 
     /* Preview rows */
     tr.preview-row td { background: var(--preview-bg); padding: 0; border-bottom: none; }
@@ -122,6 +122,22 @@
     .preview-error { padding: 12px; color: var(--accent); font-size: 12px; }
     .preview-empty { padding: 12px; color: var(--text-dim); font-size: 12px; }
     .preview-loading { padding: 12px; color: var(--text-muted); font-size: 12px; display: flex; align-items: center; gap: 8px; }
+
+    /* Column filter dropdown */
+    .col-filter-btn { background: white; border: 1px solid var(--border); border-radius: 4px; padding: 3px 8px; font-size: 11px; cursor: pointer; color: var(--text-muted); transition: all 0.1s; width: 100%; }
+    .col-filter-btn:hover { background: var(--bg); color: var(--text); }
+    .col-filter-btn.active { background: var(--accent-bg); color: var(--accent); border-color: var(--accent); }
+    .filter-dropdown { position: fixed; background: white; border: 1px solid var(--border); border-radius: 8px; box-shadow: 0 8px 24px rgba(0,0,0,0.12); z-index: 1000; min-width: 180px; max-height: 280px; display: flex; flex-direction: column; }
+    .filter-dropdown-search { padding: 8px; border-bottom: 1px solid var(--border-light); }
+    .filter-dropdown-search input { width: 100%; padding: 5px 8px; border: 1px solid var(--border); border-radius: 4px; font-size: 12px; outline: none; font-family: var(--sans); }
+    .filter-dropdown-list { overflow-y: auto; max-height: 180px; padding: 4px 0; }
+    .filter-dropdown-item { display: flex; align-items: center; gap: 8px; padding: 6px 12px; font-size: 12px; cursor: pointer; }
+    .filter-dropdown-item:hover { background: var(--bg); }
+    .filter-dropdown-item input { width: 13px; height: 13px; accent-color: var(--accent); }
+    .filter-dropdown-actions { display: flex; gap: 6px; padding: 8px; border-top: 1px solid var(--border-light); }
+    .filter-dropdown-actions button { flex: 1; padding: 5px; font-size: 12px; border-radius: 4px; cursor: pointer; border: none; }
+    .btn-filter-ok { background: var(--accent); color: white; }
+    .btn-filter-clear { background: var(--bg); color: var(--text-muted); border: 1px solid var(--border) !important; }
 
     /* Summary */
     .summary-bar { display: flex; align-items: center; gap: 16px; padding: 12px 20px; background: var(--green-bg); border-top: 1px solid var(--green-border); font-size: 13px; border-radius: 0 0 var(--radius) var(--radius); }
@@ -213,18 +229,18 @@
           </tr>
           <tr id="filterRow" style="background:#f9fafb;">
             <th></th>
-            <th><input class="col-filter" data-col="0" placeholder="🔍" oninput="applyFilters()" style="width:100%;padding:4px 6px;font-size:11px;border:1px solid var(--border);border-radius:4px;font-family:var(--mono);background:white"></th>
-            <th><input class="col-filter" data-col="1" placeholder="🔍" oninput="applyFilters()" style="width:100%;padding:4px 6px;font-size:11px;border:1px solid var(--border);border-radius:4px;font-family:var(--sans);background:white"></th>
-            <th><input class="col-filter" data-col="2" placeholder="🔍" oninput="applyFilters()" style="width:100%;padding:4px 6px;font-size:11px;border:1px solid var(--border);border-radius:4px;font-family:var(--mono);background:white"></th>
-            <th><input class="col-filter" data-col="3" placeholder="🔍" oninput="applyFilters()" style="width:100%;padding:4px 6px;font-size:11px;border:1px solid var(--border);border-radius:4px;font-family:var(--mono);background:white"></th>
-            <th><input class="col-filter" data-col="4" placeholder="🔍" oninput="applyFilters()" style="width:100%;padding:4px 6px;font-size:11px;border:1px solid var(--border);border-radius:4px;font-family:var(--mono);background:white"></th>
-            <th><input class="col-filter" data-col="5" placeholder="🔍" oninput="applyFilters()" style="width:100%;padding:4px 6px;font-size:11px;border:1px solid var(--border);border-radius:4px;font-family:var(--mono);background:white"></th>
-            <th><input class="col-filter" data-col="6" placeholder="🔍" oninput="applyFilters()" style="width:100%;padding:4px 6px;font-size:11px;border:1px solid var(--border);border-radius:4px;font-family:var(--sans);background:white"></th>
-            <th><input class="col-filter" data-col="7" placeholder="🔍" oninput="applyFilters()" style="width:100%;padding:4px 6px;font-size:11px;border:1px solid var(--border);border-radius:4px;font-family:var(--sans);background:white"></th>
-            <th><input class="col-filter" data-col="8" placeholder="🔍" oninput="applyFilters()" style="width:100%;padding:4px 6px;font-size:11px;border:1px solid var(--border);border-radius:4px;font-family:var(--mono);background:white"></th>
-            <th><input class="col-filter" data-col="9" placeholder="🔍" oninput="applyFilters()" style="width:100%;padding:4px 6px;font-size:11px;border:1px solid var(--border);border-radius:4px;font-family:var(--mono);background:white"></th>
-            <th></th>
-            <th></th>
+            <th><button class="col-filter-btn" onclick="openFilter(this,0)" data-col="0">▼</button></th>
+            <th><button class="col-filter-btn" onclick="openFilter(this,1)" data-col="1">▼</button></th>
+            <th><button class="col-filter-btn" onclick="openFilter(this,2)" data-col="2">▼</button></th>
+            <th><button class="col-filter-btn" onclick="openFilter(this,3)" data-col="3">▼</button></th>
+            <th><button class="col-filter-btn" onclick="openFilter(this,4)" data-col="4">▼</button></th>
+            <th><button class="col-filter-btn" onclick="openFilter(this,5)" data-col="5">▼</button></th>
+            <th><button class="col-filter-btn" onclick="openFilter(this,6)" data-col="6">▼</button></th>
+            <th><button class="col-filter-btn" onclick="openFilter(this,7)" data-col="7">▼</button></th>
+            <th><button class="col-filter-btn" onclick="openFilter(this,8)" data-col="8">▼</button></th>
+            <th><button class="col-filter-btn" onclick="openFilter(this,9)" data-col="9">▼</button></th>
+            <th><button class="col-filter-btn" onclick="openFilter(this,10)" data-col="10">▼</button></th>
+            <th><button class="col-filter-btn" onclick="openFilter(this,11)" data-col="11">▼</button></th>
           </tr>
         </thead>
         <tbody id="ordersBody"></tbody>
@@ -245,6 +261,7 @@
   let allOrders = [];
   let previewData = {}; // { orderName: { deliveries, error } }
   let selectedDeliveries = {}; // { orderName: deliveryObject }
+  let syncStatuses = {}; // { orderName: { success, msg } } - persists across re-fetch
 
   function setFetchStatus(msg, type = '') {
     const el = document.getElementById('fetchStatus');
@@ -327,11 +344,11 @@
         <td><span class="mono" style="font-size:12px;direction:ltr">${parseFloat(o.total).toLocaleString('en-US')}</span></td>
         <td><span class="mono" style="font-size:11px;color:#111">${o.bostaTracking || '—'}</span></td>
         <td>${o.bostaWebhook ? stateBadge(o.bostaWebhook) : '<span class="text-dim">—</span>'}</td>
-        <td><span class="mono" style="font-size:11px;color:#111">${o.bostaOrderType || '—'}</span></td>
+        <td><span class="mono" style="font-size:11px;color:#111">${translateType(o.bostaOrderType)}</span></td>
         <td><span class="mono" style="font-size:11px;color:#111;direction:ltr">${o.bostaAttempts || '—'}</span></td>
         <td><span class="mono" style="font-size:11px;color:#111">${o.bostaLastSync || '—'}</span></td>
         <td>${previewCell}</td>
-        <td id="sync-status-${i}" style="font-size:12px;font-family:var(--mono)"></td>
+        <td id="sync-status-${i}" style="font-size:12px;font-family:var(--mono)">${syncStatuses[o.name] ? (syncStatuses[o.name].success ? '<span style="color:var(--green)">✓ تم</span>' : '<span style="color:var(--accent)">✗ ' + syncStatuses[o.name].msg + '</span>') : ''}</td>
       </tr>`;
 
     const previewRow = pData && pData.deliveries?.length
@@ -364,7 +381,7 @@
           <td style="text-align:center"><span class="mono" style="font-size:11px;direction:ltr">${d.cod != null ? d.cod.toLocaleString('en-US') : '—'}</span></td>
           <td><span class="mono" style="font-size:11px;direction:ltr;color:#111;font-weight:600">${d.trackingNumber || '—'}</span></td>
           <td>${stateBadge(d.state)}</td>
-          <td><span class="mono" style="font-size:11px;color:#111">${d.orderType || '—'}</span></td>
+          <td><span class="mono" style="font-size:11px;color:#111">${translateType(d.orderType)}</span></td>
           <td><span class="mono" style="font-size:11px;direction:ltr;color:#111">${d.attempts ?? '—'}</span></td>
           <td>—</td>
           <td></td>
@@ -496,7 +513,7 @@
         return;
       }
 
-      // Update sync-status cells
+      // Store & display sync status
       const resultMap = {};
       for (const r of data.results) resultMap[r.name] = r;
 
@@ -504,11 +521,16 @@
         const idx = parseInt(c.dataset.idx);
         const o   = allOrders[idx];
         const r   = resultMap[o.name];
-        const statusCell = document.getElementById(`sync-status-${idx}`);
         if (r?.success) {
-          if (statusCell) statusCell.innerHTML = '<span style="color:var(--green)">✓ تم</span>';
+          syncStatuses[o.name] = { success: true, msg: 'تم' };
         } else {
-          if (statusCell) statusCell.innerHTML = `<span style="color:var(--accent)">✗ ${r?.error || 'خطأ'}</span>`;
+          syncStatuses[o.name] = { success: false, msg: r?.error || 'خطأ' };
+        }
+        const statusCell = document.getElementById(`sync-status-${idx}`);
+        if (statusCell) {
+          statusCell.innerHTML = r?.success
+            ? '<span style="color:var(--green)">✓ تم</span>'
+            : `<span style="color:var(--accent)">✗ ${r?.error || 'خطأ'}</span>`;
         }
       });
 
@@ -536,20 +558,121 @@
     updateSelection();
   }
 
-  function applyFilters() {
-    const filters = [...document.querySelectorAll('.col-filter')].map(f => f.value.trim().toLowerCase());
-    const hasFilter = filters.some(f => f);
+  // ── Column Filter System ──────────────────────────────────────────────────
+  let activeFilters = {}; // { colIdx: Set of selected values }
+  let currentDropdown = null;
 
+  function getColValues(colIdx) {
+    const values = new Set();
     document.querySelectorAll('.order-row').forEach(row => {
-      if (!hasFilter) { row.style.display = ''; return; }
-      const cells = [...row.querySelectorAll('td')].slice(1); // skip checkbox col
-      const colTexts = cells.map(td => td.textContent.trim().toLowerCase());
-      const match = filters.every((f, i) => !f || (colTexts[i] || '').includes(f));
-      row.style.display = match ? '' : 'none';
-      // Also hide/show associated preview rows
+      const cells = [...row.querySelectorAll('td')].slice(1);
+      const text = (cells[colIdx]?.textContent || '').trim();
+      if (text && text !== '—') values.add(text);
+    });
+    return [...values].sort();
+  }
+
+  function openFilter(btn, colIdx) {
+    // Close existing dropdown
+    if (currentDropdown) { currentDropdown.remove(); currentDropdown = null; }
+
+    const allVals = getColValues(colIdx);
+    if (!allVals.length) return;
+
+    const selected = activeFilters[colIdx] || new Set(allVals);
+
+    const dd = document.createElement('div');
+    dd.className = 'filter-dropdown';
+    dd.innerHTML = `
+      <div class="filter-dropdown-search"><input placeholder="بحث..." oninput="filterDropdownSearch(this)" /></div>
+      <div class="filter-dropdown-list" id="dd-list">
+        <div class="filter-dropdown-item">
+          <input type="checkbox" id="dd-all" ${selected.size === allVals.length ? 'checked' : ''} onchange="ddToggleAll(this, ${colIdx})" />
+          <label for="dd-all" style="cursor:pointer;font-weight:600">(تحديد الكل)</label>
+        </div>
+        ${allVals.map((v,i) => `
+          <div class="filter-dropdown-item">
+            <input type="checkbox" id="dd-${i}" data-val="${v.replace(/"/g,'&quot;')}" ${selected.has(v) ? 'checked' : ''} onchange="ddUpdateAll(${colIdx})" />
+            <label for="dd-${i}" style="cursor:pointer">${v}</label>
+          </div>`).join('')}
+      </div>
+      <div class="filter-dropdown-actions">
+        <button class="btn-filter-ok" onclick="applyDropdownFilter(${colIdx})">تطبيق</button>
+        <button class="btn-filter-clear" onclick="clearFilter(${colIdx})">مسح</button>
+      </div>`;
+
+    // Position dropdown near button
+    const rect = btn.getBoundingClientRect();
+    dd.style.top  = (rect.bottom + window.scrollY + 4) + 'px';
+    dd.style.right = (window.innerWidth - rect.right) + 'px';
+    document.body.appendChild(dd);
+    currentDropdown = dd;
+
+    // Close on outside click
+    setTimeout(() => {
+      document.addEventListener('click', function outsideClick(e) {
+        if (!dd.contains(e.target) && e.target !== btn) {
+          dd.remove(); currentDropdown = null;
+          document.removeEventListener('click', outsideClick);
+        }
+      });
+    }, 10);
+  }
+
+  function filterDropdownSearch(input) {
+    const q = input.value.toLowerCase();
+    document.querySelectorAll('#dd-list .filter-dropdown-item:not(:first-child)').forEach(item => {
+      item.style.display = item.textContent.toLowerCase().includes(q) ? '' : 'none';
+    });
+  }
+
+  function ddToggleAll(master, colIdx) {
+    document.querySelectorAll('#dd-list input[data-val]').forEach(cb => { cb.checked = master.checked; });
+  }
+
+  function ddUpdateAll(colIdx) {
+    const all  = [...document.querySelectorAll('#dd-list input[data-val]')];
+    const allChecked = all.every(cb => cb.checked);
+    const ddAll = document.getElementById('dd-all');
+    if (ddAll) ddAll.checked = allChecked;
+  }
+
+  function applyDropdownFilter(colIdx) {
+    const checked = [...document.querySelectorAll('#dd-list input[data-val]:checked')].map(cb => cb.dataset.val);
+    const allVals = getColValues(colIdx);
+    if (checked.length === allVals.length) {
+      delete activeFilters[colIdx];
+      document.querySelector(`.col-filter-btn[data-col="${colIdx}"]`)?.classList.remove('active');
+    } else {
+      activeFilters[colIdx] = new Set(checked);
+      document.querySelector(`.col-filter-btn[data-col="${colIdx}"]`)?.classList.add('active');
+    }
+    if (currentDropdown) { currentDropdown.remove(); currentDropdown = null; }
+    applyFilters();
+  }
+
+  function clearFilter(colIdx) {
+    delete activeFilters[colIdx];
+    document.querySelector(`.col-filter-btn[data-col="${colIdx}"]`)?.classList.remove('active');
+    if (currentDropdown) { currentDropdown.remove(); currentDropdown = null; }
+    applyFilters();
+  }
+
+  function applyFilters() {
+    const hasFilter = Object.keys(activeFilters).length > 0;
+    document.querySelectorAll('.order-row').forEach(row => {
+      if (!hasFilter) { row.style.display = ''; }
+      else {
+        const cells = [...row.querySelectorAll('td')].slice(1);
+        const match = Object.entries(activeFilters).every(([col, vals]) => {
+          const text = (cells[parseInt(col)]?.textContent || '').trim();
+          return vals.has(text);
+        });
+        row.style.display = match ? '' : 'none';
+      }
       const idx = row.dataset.idx;
       document.querySelectorAll(`[id^="preview-${idx}"]`).forEach(pr => {
-        pr.style.display = match ? '' : 'none';
+        pr.style.display = row.style.display;
       });
     });
   }
@@ -594,6 +717,16 @@
   }
   function selectAll()   { document.querySelectorAll('.row-check').forEach(c => c.checked = true);  updateSelection(); }
   function deselectAll() { document.querySelectorAll('.row-check').forEach(c => c.checked = false); updateSelection(); }
+
+  function translateType(type) {
+    if (!type) return '—';
+    const map = {
+      'Return to Origin': 'إسترجاع',
+      'Exchange':         'إستبدال',
+      'Send':             'توصيل',
+    };
+    return map[type] || type;
+  }
 
   function stateBadge(state) {
     if (!state) return '<span class="badge badge-empty">—</span>';
