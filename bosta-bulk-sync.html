@@ -80,9 +80,9 @@
     .table-wrap { overflow-x: auto; }
     table { width: 100%; border-collapse: collapse; font-size: 12px; }
     thead { background: var(--bg); position: sticky; top: 0; z-index: 1; }
-    th { padding: 10px 12px; text-align: right; font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 2px solid var(--border); white-space: nowrap; }
+    th { padding: 10px 12px; text-align: center; font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 2px solid var(--border); white-space: nowrap; }
     th.check-col, td.check-col { width: 40px; text-align: center; padding: 10px 6px; }
-    td { padding: 10px 12px; border-bottom: 1px solid var(--border-light); vertical-align: middle; }
+    td { padding: 10px 12px; border-bottom: 1px solid var(--border-light); vertical-align: middle; text-align: center; }
     tr.order-row:hover td { background: var(--bg); }
     tr.order-row.selected td { background: var(--blue-bg); }
     tr.order-row.row-success td { background: var(--green-bg); }
@@ -294,14 +294,14 @@
       ? `<span style="color:var(--blue);font-size:11px">جاري...</span>`
       : pData.error
       ? `<span style="color:var(--accent);font-size:11px">✗ ${pData.error}</span>`
-      : `<span style="color:${deliveryCount > 1 ? 'var(--accent)' : 'var(--green)'};font-size:11px;font-weight:600">✓ ${deliveryCount} delivery</span>`;
+      : `<span style="background:${deliveryCount > 1 ? '#fecaca' : 'transparent'};color:${deliveryCount > 1 ? 'var(--accent)' : 'var(--green)'};font-size:11px;font-weight:600;padding:2px 6px;border-radius:4px">✓ ${deliveryCount} delivery</span>`;
     const multiDelivery = !pData?.loading && !pData?.error && deliveryCount > 1;
 
     const mainRow = `
       <tr class="order-row" id="row-${i}" data-idx="${i}" style="${multiDelivery ? 'background:#fff0f0;' : ''}">
         <td class="check-col"><input type="checkbox" class="row-check" data-idx="${i}" data-name="${o.name}" onchange="updateSelection()" /></td>
         <td><span class="mono" style="font-weight:500">${o.name}</span></td>
-        <td>${o.customerName}</td>
+        <td style="max-width:120px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${o.customerName}</td>
         <td><span class="mono text-muted" style="font-size:11px;direction:ltr">${o.phone || '—'}</span></td>
         <td><span class="mono text-dim" style="font-size:11px">${fmtDate(o.createdAt)}</span></td>
         <td><span class="mono" style="font-size:12px;direction:ltr">${parseFloat(o.total).toLocaleString('en-US')}</span></td>
@@ -316,7 +316,7 @@
     const previewRow = pData && pData.deliveries?.length
       ? buildPreviewTable(o, i, pData.deliveries)
       : pData?.loading
-      ? `<tr class="preview-data-row" id="preview-${i}" style="background:#e8f0fe;border-right:3px solid var(--blue);"><td colspan="12"><div style="display:flex;align-items:center;gap:8px;padding:8px 12px;font-size:12px;color:var(--text-muted)"><div class="spinner spinner-blue"></div>جاري جلب بيانات بوسطة...</div></td></tr>`
+      ? `<tr class="preview-data-row" id="preview-${i}" style="background:#dbeafe;"><td colspan="12"><div style="display:flex;align-items:center;gap:8px;padding:8px 12px;font-size:12px;color:var(--text-muted)"><div class="spinner spinner-blue"></div>جاري جلب بيانات بوسطة...</div></td></tr>`
       : '';
 
     return mainRow + previewRow;
@@ -330,15 +330,17 @@
       const radioId    = `del-${orderIdx}-${di}`;
       const isSelected = selectedDeliveries[order.name]?.trackingNumber === d.trackingNumber;
       return `
-        <tr class="preview-data-row" id="preview-${orderIdx}-${di}" style="background:#e8f0fe;border-right:3px solid var(--blue);">
+        <tr class="preview-data-row" id="preview-${orderIdx}-${di}" style="background:#dbeafe;">
           <td class="check-col" style="text-align:center">
             <input type="radio" name="${radioName}" id="${radioId}"
               ${isSelected ? 'checked' : ''}
               onchange="selectDelivery('${order.name}', ${orderIdx}, ${di})" />
           </td>
           <td><span class="mono text-dim" style="font-size:11px">↳ bosta</span></td>
-          <td colspan="3"><span class="mono text-dim" style="font-size:11px">${fmtDate(d.createdAt)}</span></td>
-          <td>—</td>
+          <td></td>
+          <td></td>
+          <td style="text-align:center"><span class="mono text-dim" style="font-size:11px">${fmtDate(d.createdAt)}</span></td>
+          <td style="text-align:center">—</td>
           <td><span class="mono" style="font-size:11px;direction:ltr">${d.trackingNumber || '—'}</span></td>
           <td>${stateBadge(d.state)}</td>
           <td><span class="mono text-muted" style="font-size:11px">${d.orderType || '—'}</span></td>
