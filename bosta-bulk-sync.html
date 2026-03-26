@@ -415,37 +415,34 @@
 
   function rerenderRows(idxList) {
     idxList.forEach(i => {
-      const o        = allOrders[i];
-      const existing = document.getElementById(`row-${i}`);
+      const o = allOrders[i];
+
+      // Save checkbox state
+      const wasChecked = document.querySelector(`.row-check[data-idx="${i}"]`)?.checked || false;
+
+      // Remove existing preview row first
       const existingPreview = document.getElementById(`preview-${i}`);
+      if (existingPreview) existingPreview.remove();
+
+      // Replace main row
+      const existing = document.getElementById(`row-${i}`);
       if (!existing) return;
 
       const temp = document.createElement('tbody');
       temp.innerHTML = buildOrderRows(o, i);
+      const newMainRow = temp.querySelector(`#row-${i}`);
+      const newPreviewRow = temp.querySelector(`#preview-${i}`);
 
-      // Preserve checkbox state
-      const wasChecked = existing.querySelector('.row-check')?.checked;
-      existing.replaceWith(temp.children[0]);
+      existing.replaceWith(newMainRow);
+
+      // Restore checkbox
       if (wasChecked) {
-        document.querySelector(`.row-check[data-idx="${i}"]`).checked = true;
-        document.getElementById(`row-${i}`).classList.add('selected');
+        const cb = document.querySelector(`.row-check[data-idx="${i}"]`);
+        if (cb) { cb.checked = true; newMainRow.classList.add('selected'); }
       }
 
-      // Replace or add preview row
-      const newPreview = temp.children[0]; // might be preview row
-      if (existingPreview) {
-        const nextPreview = temp.innerHTML.includes('preview-row')
-          ? (() => { const t = document.createElement('tbody'); t.innerHTML = buildOrderRows(o, i); return [...t.children].find(r => r.id === `preview-${i}`); })()
-          : null;
-        if (nextPreview) existingPreview.replaceWith(nextPreview);
-        else existingPreview.remove();
-      } else {
-        const newRow = document.getElementById(`row-${i}`);
-        const t = document.createElement('tbody');
-        t.innerHTML = buildOrderRows(o, i);
-        const pRow = [...t.children].find(r => r.id === `preview-${i}`);
-        if (pRow && newRow) newRow.after(pRow);
-      }
+      // Insert preview row after main row
+      if (newPreviewRow) newMainRow.after(newPreviewRow);
     });
   }
 
