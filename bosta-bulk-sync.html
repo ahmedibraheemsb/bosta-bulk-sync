@@ -59,7 +59,7 @@
     .btn-success { background: var(--green); color: white; }
     .btn-success:hover { background: #15803d; }
     .btn-success:disabled { background: var(--border); color: var(--text-dim); cursor: not-allowed; }
-    .btn-ghost { background: transparent; color: var(--text-muted); border: 1px solid var(--border); }
+    .btn-ghost { background: transparent; color: var(--text-muted); }
     .btn-ghost:hover { background: var(--bg); }
     .btn-sm { padding: 5px 12px; font-size: 12px; height: 30px; }
 
@@ -82,7 +82,8 @@
     thead { background: var(--bg); position: sticky; top: 0; z-index: 1; }
     th { padding: 10px 12px; text-align: center; font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 2px solid var(--border); white-space: nowrap; }
     th.check-col, td.check-col { width: 40px; text-align: center; padding: 10px 6px; }
-    td { padding: 10px 12px; border-bottom: 1px solid var(--border-light); vertical-align: middle; text-align: center; }
+    td { padding: 10px 12px; border-bottom: 1px solid var(--border-light); vertical-align: middle; text-align: center; color: #111; font-weight: 500; }
+    td.text-col { color: var(--text-muted); font-weight: 400; }
     tr.order-row:hover td { background: var(--bg); }
     tr.order-row.selected td { background: var(--blue-bg); }
     tr.order-row.row-success td { background: var(--green-bg); }
@@ -100,14 +101,14 @@
     .text-dim { color: var(--text-dim); }
 
     /* State badges */
-    .badge { display: inline-block; padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 600; }
-    .badge-delivered  { background: var(--green-bg);  color: var(--green);  border: 1px solid var(--green-border); }
-    .badge-returned   { background: var(--red-bg);    color: var(--accent); border: 1px solid var(--red-border); }
-    .badge-exception  { background: var(--orange-bg); color: var(--orange); border: 1px solid var(--orange-border); }
-    .badge-transit    { background: var(--blue-bg);   color: var(--blue);   border: 1px solid var(--blue-border); }
-    .badge-pending    { background: var(--yellow-bg); color: var(--yellow); border: 1px solid var(--yellow-border); }
-    .badge-default    { background: var(--bg); color: var(--text-dim); border: 1px solid var(--border); }
-    .badge-empty      { background: var(--bg); color: var(--text-dim); border: 1px dashed var(--border); }
+    .badge { display: inline-block; padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 600; border: none; }
+    .badge-delivered  { background: var(--green-bg);  color: var(--green);  }
+    .badge-returned   { background: var(--red-bg);    color: var(--accent); }
+    .badge-exception  { background: var(--orange-bg); color: var(--orange); }
+    .badge-transit    { background: var(--blue-bg);   color: var(--blue);   }
+    .badge-pending    { background: var(--yellow-bg); color: var(--yellow); }
+    .badge-default    { background: var(--bg); color: var(--text-dim); }
+    .badge-empty      { background: var(--bg); color: var(--text-dim); }
 
     /* Preview rows */
     tr.preview-row td { background: var(--preview-bg); padding: 0; border-bottom: none; }
@@ -210,6 +211,21 @@
             <th>عدد الظهور</th>
             <th>حالة التحديث</th>
           </tr>
+          <tr id="filterRow" style="background:#f9fafb;">
+            <th></th>
+            <th><input class="col-filter" data-col="0" placeholder="🔍" oninput="applyFilters()" style="width:100%;padding:4px 6px;font-size:11px;border:1px solid var(--border);border-radius:4px;font-family:var(--mono);background:white"></th>
+            <th><input class="col-filter" data-col="1" placeholder="🔍" oninput="applyFilters()" style="width:100%;padding:4px 6px;font-size:11px;border:1px solid var(--border);border-radius:4px;font-family:var(--sans);background:white"></th>
+            <th><input class="col-filter" data-col="2" placeholder="🔍" oninput="applyFilters()" style="width:100%;padding:4px 6px;font-size:11px;border:1px solid var(--border);border-radius:4px;font-family:var(--mono);background:white"></th>
+            <th><input class="col-filter" data-col="3" placeholder="🔍" oninput="applyFilters()" style="width:100%;padding:4px 6px;font-size:11px;border:1px solid var(--border);border-radius:4px;font-family:var(--mono);background:white"></th>
+            <th><input class="col-filter" data-col="4" placeholder="🔍" oninput="applyFilters()" style="width:100%;padding:4px 6px;font-size:11px;border:1px solid var(--border);border-radius:4px;font-family:var(--mono);background:white"></th>
+            <th><input class="col-filter" data-col="5" placeholder="🔍" oninput="applyFilters()" style="width:100%;padding:4px 6px;font-size:11px;border:1px solid var(--border);border-radius:4px;font-family:var(--mono);background:white"></th>
+            <th><input class="col-filter" data-col="6" placeholder="🔍" oninput="applyFilters()" style="width:100%;padding:4px 6px;font-size:11px;border:1px solid var(--border);border-radius:4px;font-family:var(--sans);background:white"></th>
+            <th><input class="col-filter" data-col="7" placeholder="🔍" oninput="applyFilters()" style="width:100%;padding:4px 6px;font-size:11px;border:1px solid var(--border);border-radius:4px;font-family:var(--sans);background:white"></th>
+            <th><input class="col-filter" data-col="8" placeholder="🔍" oninput="applyFilters()" style="width:100%;padding:4px 6px;font-size:11px;border:1px solid var(--border);border-radius:4px;font-family:var(--mono);background:white"></th>
+            <th><input class="col-filter" data-col="9" placeholder="🔍" oninput="applyFilters()" style="width:100%;padding:4px 6px;font-size:11px;border:1px solid var(--border);border-radius:4px;font-family:var(--mono);background:white"></th>
+            <th></th>
+            <th></th>
+          </tr>
         </thead>
         <tbody id="ordersBody"></tbody>
       </table>
@@ -222,9 +238,9 @@
 
 <script>
   const today = new Date();
-  const prior = new Date(); prior.setDate(today.getDate() - 30);
-  document.getElementById('dateTo').value   = today.toISOString().split('T')[0];
-  document.getElementById('dateFrom').value = prior.toISOString().split('T')[0];
+  const todayStr = today.toISOString().split('T')[0];
+  document.getElementById('dateTo').value   = todayStr;
+  document.getElementById('dateFrom').value = todayStr;
 
   let allOrders = [];
   let previewData = {}; // { orderName: { deliveries, error } }
@@ -246,7 +262,8 @@
 
     document.getElementById('fetchBtn').disabled = true;
     document.getElementById('resultsCard').style.display = 'none';
-    previewData = {}; selectedDeliveries = {};
+    const isAutoRefetch = Object.keys(previewData).length > 0;
+    if (!isAutoRefetch) { previewData = {}; selectedDeliveries = {}; }
     setFetchStatus('جاري جلب الأوردرات...', 'loading');
 
     try {
@@ -264,6 +281,13 @@
         return;
       }
       renderTable();
+      // Restore preview rows if this was auto re-fetch
+      if (isAutoRefetch) {
+        const idxsWithPreview = allOrders
+          .map((o, i) => previewData[o.name] ? i : null)
+          .filter(i => i !== null);
+        if (idxsWithPreview.length) rerenderRows(idxsWithPreview);
+      }
       setFetchStatus(`تم جلب ${allOrders.length} أوردر بنجاح`, 'success');
       document.getElementById('resultsCard').style.display = 'block';
     } catch (err) {
@@ -297,15 +321,15 @@
       <tr class="order-row" id="row-${i}" data-idx="${i}" style="${multiDelivery ? 'background:#fff0f0;' : ''}">
         <td class="check-col"><input type="checkbox" class="row-check" data-idx="${i}" data-name="${o.name}" onchange="updateSelection()" /></td>
         <td><span class="mono" style="font-weight:500">${o.name}</span></td>
-        <td style="max-width:120px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${o.customerName}</td>
-        <td><span class="mono text-muted" style="font-size:11px;direction:ltr">${o.phone || '—'}</span></td>
-        <td><span class="mono text-dim" style="font-size:11px">${fmtDate(o.createdAt)}</span></td>
+        <td style="max-width:120px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#111;font-weight:500">${o.customerName}</td>
+        <td><span class="mono" style="font-size:11px;direction:ltr;color:#111">${o.phone || '—'}</span></td>
+        <td><span class="mono" style="font-size:11px;color:#111">${fmtDate(o.createdAt)}</span></td>
         <td><span class="mono" style="font-size:12px;direction:ltr">${parseFloat(o.total).toLocaleString('en-US')}</span></td>
-        <td><span class="mono text-muted" style="font-size:11px">${o.bostaTracking || '—'}</span></td>
+        <td><span class="mono" style="font-size:11px;color:#111">${o.bostaTracking || '—'}</span></td>
         <td>${o.bostaWebhook ? stateBadge(o.bostaWebhook) : '<span class="text-dim">—</span>'}</td>
-        <td><span class="mono text-muted" style="font-size:11px">${o.bostaOrderType || '—'}</span></td>
-        <td><span class="mono text-muted" style="font-size:11px">${o.bostaAttempts || '—'}</span></td>
-        <td><span class="mono text-dim" style="font-size:11px">${o.bostaLastSync || '—'}</span></td>
+        <td><span class="mono" style="font-size:11px;color:#111">${o.bostaOrderType || '—'}</span></td>
+        <td><span class="mono" style="font-size:11px;color:#111;direction:ltr">${o.bostaAttempts || '—'}</span></td>
+        <td><span class="mono" style="font-size:11px;color:#111">${o.bostaLastSync || '—'}</span></td>
         <td>${previewCell}</td>
         <td id="sync-status-${i}" style="font-size:12px;font-family:var(--mono)"></td>
       </tr>`;
@@ -336,12 +360,12 @@
           <td><span class="mono text-dim" style="font-size:11px">↳ bosta</span></td>
           <td></td>
           <td></td>
-          <td style="text-align:center"><span class="mono text-dim" style="font-size:11px">${fmtDate(d.createdAt)}</span></td>
+          <td style="text-align:center"><span class="mono" style="font-size:11px;color:#111">${fmtDate(d.createdAt)}</span></td>
           <td style="text-align:center"><span class="mono" style="font-size:11px;direction:ltr">${d.cod != null ? d.cod.toLocaleString('en-US') : '—'}</span></td>
-          <td><span class="mono" style="font-size:11px;direction:ltr">${d.trackingNumber || '—'}</span></td>
+          <td><span class="mono" style="font-size:11px;direction:ltr;color:#111;font-weight:600">${d.trackingNumber || '—'}</span></td>
           <td>${stateBadge(d.state)}</td>
-          <td><span class="mono text-muted" style="font-size:11px">${d.orderType || '—'}</span></td>
-          <td><span class="mono text-muted" style="font-size:11px;direction:ltr">${d.attempts ?? '—'}</span></td>
+          <td><span class="mono" style="font-size:11px;color:#111">${d.orderType || '—'}</span></td>
+          <td><span class="mono" style="font-size:11px;direction:ltr;color:#111">${d.attempts ?? '—'}</span></td>
           <td>—</td>
           <td></td>
           <td></td>
@@ -510,6 +534,24 @@
 
     document.getElementById('syncBtn').disabled = false;
     updateSelection();
+  }
+
+  function applyFilters() {
+    const filters = [...document.querySelectorAll('.col-filter')].map(f => f.value.trim().toLowerCase());
+    const hasFilter = filters.some(f => f);
+
+    document.querySelectorAll('.order-row').forEach(row => {
+      if (!hasFilter) { row.style.display = ''; return; }
+      const cells = [...row.querySelectorAll('td')].slice(1); // skip checkbox col
+      const colTexts = cells.map(td => td.textContent.trim().toLowerCase());
+      const match = filters.every((f, i) => !f || (colTexts[i] || '').includes(f));
+      row.style.display = match ? '' : 'none';
+      // Also hide/show associated preview rows
+      const idx = row.dataset.idx;
+      document.querySelectorAll(`[id^="preview-${idx}"]`).forEach(pr => {
+        pr.style.display = match ? '' : 'none';
+      });
+    });
   }
 
   function updateSelection() {
