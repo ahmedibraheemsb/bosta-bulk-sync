@@ -383,7 +383,7 @@
           <td>${stateBadge(d.state)}</td>
           <td><span class="mono" style="font-size:11px;color:#111">${translateType(d.orderType)}</span></td>
           <td><span class="mono" style="font-size:11px;direction:ltr;color:#111">${d.attempts ?? '—'}</span></td>
-          <td>—</td>
+          <td style="text-align:center"><span class="mono" style="font-size:11px;color:#111">${fmtDate(d.updatedAt)}</span></td>
           <td></td>
           <td></td>
         </tr>`;
