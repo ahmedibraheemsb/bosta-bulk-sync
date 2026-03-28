@@ -171,14 +171,14 @@
       <span class="card-title">فلترة الأوردرات</span>
     </div>
     <div class="card-body">
-      <div class="filter-grid">
+
+      <!-- STATUS (required) + Fetch button -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:end;margin-bottom:16px">
         <div class="field-group">
-          <label>من تاريخ</label>
-          <input type="date" id="dateFrom" onclick="this.showPicker && this.showPicker()" style="cursor:pointer" />
-        </div>
-        <div class="field-group">
-          <label>إلى تاريخ</label>
-          <input type="date" id="dateTo" onclick="this.showPicker && this.showPicker()" style="cursor:pointer" />
+          <label>STATUS <span style="color:var(--accent)">*</span></label>
+          <select id="filterStatus" style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:10px 14px;color:var(--text);font-family:var(--sans);font-size:13px;outline:none;width:100%;cursor:pointer">
+            <option value="">جاري التحميل...</option>
+          </select>
         </div>
         <div style="display:flex;align-items:flex-end;">
           <button class="btn btn-primary" id="fetchBtn" onclick="fetchOrders()" style="width:100%">
@@ -186,6 +186,55 @@
           </button>
         </div>
       </div>
+
+      <!-- Divider -->
+      <div style="border-top:1px solid var(--border-light);margin-bottom:16px;padding-top:14px">
+        <span style="font-size:11px;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.05em">فلاتر إضافية (اختيارية)</span>
+      </div>
+
+      <!-- Optional filters row 1 -->
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:12px">
+        <div class="field-group">
+          <label>من تاريخ الإنشاء</label>
+          <input type="date" id="dateFrom" onclick="this.showPicker && this.showPicker()" style="cursor:pointer" />
+        </div>
+        <div class="field-group">
+          <label>إلى تاريخ الإنشاء</label>
+          <input type="date" id="dateTo" onclick="this.showPicker && this.showPicker()" style="cursor:pointer" />
+        </div>
+        <div class="field-group">
+          <label>رقم الأوردر</label>
+          <input type="text" id="filterOrderName" placeholder="#32640" style="direction:ltr" />
+        </div>
+      </div>
+
+      <!-- Optional filters row 2 -->
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:16px;margin-bottom:12px">
+        <div class="field-group">
+          <label>رقم العميل</label>
+          <input type="text" id="filterPhone" placeholder="01xxxxxxxxx" style="direction:ltr" />
+        </div>
+        <div class="field-group">
+          <label>Bosta Last Sync — من</label>
+          <input type="date" id="filterLastSyncFrom" onclick="this.showPicker && this.showPicker()" style="cursor:pointer" />
+        </div>
+        <div class="field-group">
+          <label>Bosta Last Sync — إلى</label>
+          <input type="date" id="filterLastSyncTo" onclick="this.showPicker && this.showPicker()" style="cursor:pointer" />
+        </div>
+        <div class="field-group">
+          <label>آخر تحديث بوسطة — من</label>
+          <input type="date" id="filterUpdatedFrom" onclick="this.showPicker && this.showPicker()" style="cursor:pointer" />
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 3fr;gap:16px;margin-bottom:12px">
+        <div class="field-group">
+          <label>آخر تحديث بوسطة — إلى</label>
+          <input type="date" id="filterUpdatedTo" onclick="this.showPicker && this.showPicker()" style="cursor:pointer" />
+        </div>
+      </div>
+
       <div class="worker-row">
         <label>Worker URL</label>
         <input type="text" id="workerUrl" value="https://bosta-bulk-sync-worker.ecommoda24.workers.dev" />
@@ -215,6 +264,7 @@
           <tr>
             <th class="check-col"><input type="checkbox" id="checkAll" onchange="toggleAll(this)" /></th>
             <th>رقم الأوردر</th>
+            <th>STATUS</th>
             <th>العميل</th>
             <th>رقم العميل</th>
             <th>تاريخ الإنشاء</th>
@@ -223,7 +273,7 @@
             <th>الحالة</th>
             <th>النوع</th>
             <th>عدد محاولات التوصيل</th>
-            <th>آخر تسجيل</th>
+            <th>آخر تحديث</th>
             <th>عدد الظهور</th>
             <th>حالة التحديث</th>
           </tr>
@@ -231,7 +281,7 @@
             <th></th>
             <th><button class="col-filter-btn" onclick="openFilter(this,0)" data-col="0">▼</button></th>
             <th><button class="col-filter-btn" onclick="openFilter(this,1)" data-col="1">▼</button></th>
-            <th><button class="col-filter-btn" onclick="openFilter(this,2)" data-col="2">▼</button></th>
+            <th><button class="col-filter-btn" onclick="openFilter(this,3)" data-col="3">▼</button></th>
             <th><button class="col-filter-btn" onclick="openFilter(this,3)" data-col="3">▼</button></th>
             <th><button class="col-filter-btn" onclick="openFilter(this,4)" data-col="4">▼</button></th>
             <th><button class="col-filter-btn" onclick="openFilter(this,5)" data-col="5">▼</button></th>
@@ -241,6 +291,7 @@
             <th><button class="col-filter-btn" onclick="openFilter(this,9)" data-col="9">▼</button></th>
             <th><button class="col-filter-btn" onclick="openFilter(this,10)" data-col="10">▼</button></th>
             <th><button class="col-filter-btn" onclick="openFilter(this,11)" data-col="11">▼</button></th>
+            <th><button class="col-filter-btn" onclick="openFilter(this,12)" data-col="12">▼</button></th>
           </tr>
         </thead>
         <tbody id="ordersBody"></tbody>
@@ -253,10 +304,24 @@
 </div>
 
 <script>
-  const today = new Date();
-  const todayStr = today.toISOString().split('T')[0];
-  document.getElementById('dateTo').value   = todayStr;
-  document.getElementById('dateFrom').value = todayStr;
+  // Load STATUS values dynamically
+  async function loadStatusValues() {
+    const workerUrl = document.getElementById('workerUrl').value.trim();
+    try {
+      const res  = await fetch(`${workerUrl}/status-values`);
+      const data = await res.json();
+      const sel  = document.getElementById('filterStatus');
+      if (data.success && data.values?.length) {
+        sel.innerHTML = '<option value="">اختر STATUS...</option>' +
+          data.values.map(v => `<option value="${v}">${v}</option>`).join('');
+      } else {
+        sel.innerHTML = '<option value="">لا توجد قيم</option>';
+      }
+    } catch {
+      document.getElementById('filterStatus').innerHTML = '<option value="">خطأ في التحميل</option>';
+    }
+  }
+  loadStatusValues();
 
   let allOrders = [];
   let previewData = {}; // { orderName: { deliveries, error } }
@@ -275,7 +340,8 @@
     const from      = document.getElementById('dateFrom').value;
     const to        = document.getElementById('dateTo').value;
     const workerUrl = document.getElementById('workerUrl').value.trim();
-    if (!from || !to) { setFetchStatus('اختر نطاق التاريخ', 'error'); return; }
+    const filterStatus = document.getElementById('filterStatus')?.value || '';
+    if (!filterStatus) { setFetchStatus('اختر STATUS أولاً', 'error'); return; }
 
     document.getElementById('fetchBtn').disabled = true;
     document.getElementById('resultsCard').style.display = 'none';
@@ -284,7 +350,24 @@
     setFetchStatus('جاري جلب الأوردرات...', 'loading');
 
     try {
-      const res  = await fetch(`${workerUrl}/orders?from=${from}&to=${to}`);
+      const filterOrderName = document.getElementById('filterOrderName')?.value.replace(/^#/,'').trim() || '';
+      const filterPhone     = document.getElementById('filterPhone')?.value.trim() || '';
+      const filterLSFrom    = document.getElementById('filterLastSyncFrom')?.value || '';
+      const filterLSTo      = document.getElementById('filterLastSyncTo')?.value || '';
+      const filterUpdFrom   = document.getElementById('filterUpdatedFrom')?.value || '';
+      const filterUpdTo     = document.getElementById('filterUpdatedTo')?.value || '';
+
+      const params = new URLSearchParams({ status: filterStatus });
+      if (from) params.set('from', from);
+      if (to)   params.set('to', to);
+      if (filterOrderName) params.set('orderName', filterOrderName);
+      if (filterPhone)     params.set('phone', filterPhone);
+      if (filterLSFrom)    params.set('lastSyncFrom', filterLSFrom);
+      if (filterLSTo)      params.set('lastSyncTo', filterLSTo);
+      if (filterUpdFrom)   params.set('updatedFrom', filterUpdFrom);
+      if (filterUpdTo)     params.set('updatedTo', filterUpdTo);
+
+      const res  = await fetch(`${workerUrl}/orders?${params.toString()}`);
       const data = await res.json();
       if (!res.ok || !data.success) {
         setFetchStatus(data.error || `خطأ: ${res.status}`, 'error');
@@ -338,6 +421,7 @@
       <tr class="order-row" id="row-${i}" data-idx="${i}" style="${multiDelivery ? 'background:#fff0f0;' : ''}">
         <td class="check-col"><input type="checkbox" class="row-check" data-idx="${i}" data-name="${o.name}" onchange="updateSelection()" /></td>
         <td><span class="mono" style="font-weight:500">${o.name}</span></td>
+        <td><span style="font-size:11px;color:var(--text-muted)">${o.manualStatus || '—'}</span></td>
         <td style="max-width:120px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#111;font-weight:500">${o.customerName}</td>
         <td><span class="mono" style="font-size:11px;direction:ltr;color:#111">${o.phone || '—'}</span></td>
         <td><span class="mono" style="font-size:11px;color:#111">${fmtDate(o.createdAt)}</span></td>
@@ -354,7 +438,7 @@
     const previewRow = pData && pData.deliveries?.length
       ? buildPreviewTable(o, i, pData.deliveries)
       : pData?.loading
-      ? `<tr class="preview-data-row" id="preview-${i}" style="background:#F2CEED;font-size:11px;"><td colspan="13"><div style="display:flex;align-items:center;gap:8px;padding:8px 12px;font-size:12px;color:var(--text-muted)"><div class="spinner spinner-blue"></div>جاري جلب بيانات بوسطة...</div></td></tr>`
+      ? `<tr class="preview-data-row" id="preview-${i}" style="background:#F2CEED;font-size:11px;"><td colspan="14"><div style="display:flex;align-items:center;gap:8px;padding:8px 12px;font-size:12px;color:var(--text-muted)"><div class="spinner spinner-blue"></div>جاري جلب بيانات بوسطة...</div></td></tr>`
       : '';
 
     return mainRow + previewRow;
@@ -375,6 +459,7 @@
               onchange="selectDelivery('${order.name}', ${orderIdx}, ${di})" />
           </td>
           <td><span class="mono text-dim" style="font-size:11px">↳ bosta</span></td>
+          <td></td>
           <td></td>
           <td></td>
           <td style="text-align:center"><span class="mono" style="font-size:11px;color:#111">${fmtDate(d.createdAt)}</span></td>
@@ -432,9 +517,12 @@
 
       for (const r of data.results) {
         previewData[r.name] = { deliveries: r.deliveries || [], error: r.error };
-        // Auto-select first delivery if only one
-        if (r.deliveries?.length === 1) {
-          selectedDeliveries[r.name] = r.deliveries[0];
+        // Auto-select latest delivery by updatedAt
+        if (r.deliveries?.length > 0) {
+          const latest = r.deliveries.reduce((a, b) =>
+            new Date(a.updatedAt || 0) >= new Date(b.updatedAt || 0) ? a : b
+          );
+          selectedDeliveries[r.name] = latest;
         }
       }
 
@@ -742,8 +830,13 @@
 
   function fmtDate(d) {
     if (!d) return '—';
-    try { return new Date(d).toLocaleDateString('en-GB', { year: 'numeric', month: 'short', day: 'numeric' }); }
-    catch { return d; }
+    try {
+      const dt = new Date(d);
+      const dd = String(dt.getDate()).padStart(2,'0');
+      const mm = String(dt.getMonth()+1).padStart(2,'0');
+      const yyyy = dt.getFullYear();
+      return `${dd}-${mm}-${yyyy}`;
+    } catch { return d; }
   }
 </script>
 </body>
