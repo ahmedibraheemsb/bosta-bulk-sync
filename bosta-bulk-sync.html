@@ -204,7 +204,7 @@
         </div>
         <div class="field-group">
           <label>رقم الأوردر</label>
-          <input type="text" id="filterOrderName" placeholder="#32640" style="direction:ltr" />
+          <input type="text" id="filterOrderName" style="direction:ltr" />
         </div>
       </div>
 
@@ -212,7 +212,7 @@
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:16px;margin-bottom:12px">
         <div class="field-group">
           <label>رقم العميل</label>
-          <input type="text" id="filterPhone" placeholder="01xxxxxxxxx" style="direction:ltr" />
+          <input type="text" id="filterPhone" style="direction:ltr" />
         </div>
         <div class="field-group">
           <label>Bosta Last Sync — من</label>
@@ -221,17 +221,6 @@
         <div class="field-group">
           <label>Bosta Last Sync — إلى</label>
           <input type="date" id="filterLastSyncTo" onclick="this.showPicker && this.showPicker()" style="cursor:pointer" />
-        </div>
-        <div class="field-group">
-          <label>آخر تحديث بوسطة — من</label>
-          <input type="date" id="filterUpdatedFrom" onclick="this.showPicker && this.showPicker()" style="cursor:pointer" />
-        </div>
-      </div>
-
-      <div style="display:grid;grid-template-columns:1fr 3fr;gap:16px;margin-bottom:12px">
-        <div class="field-group">
-          <label>آخر تحديث بوسطة — إلى</label>
-          <input type="date" id="filterUpdatedTo" onclick="this.showPicker && this.showPicker()" style="cursor:pointer" />
         </div>
       </div>
 
@@ -340,8 +329,15 @@
     const from      = document.getElementById('dateFrom').value;
     const to        = document.getElementById('dateTo').value;
     const workerUrl = document.getElementById('workerUrl').value.trim();
-    const filterStatus = document.getElementById('filterStatus')?.value || '';
-    if (!filterStatus) { setFetchStatus('اختر STATUS أولاً', 'error'); return; }
+    const filterStatus    = document.getElementById('filterStatus')?.value || '';
+    const _chkOrderName   = document.getElementById('filterOrderName')?.value.trim() || '';
+    const _chkPhone       = document.getElementById('filterPhone')?.value.trim() || '';
+    const _chkFrom        = document.getElementById('dateFrom')?.value || '';
+    const _chkTo          = document.getElementById('dateTo')?.value || '';
+    const _chkLSFrom      = document.getElementById('filterLastSyncFrom')?.value || '';
+    const _chkLSTo        = document.getElementById('filterLastSyncTo')?.value || '';
+    const hasAnyFilter    = filterStatus || _chkOrderName || _chkPhone || _chkFrom || _chkTo || _chkLSFrom || _chkLSTo;
+    if (!hasAnyFilter) { setFetchStatus('اختر فلتر واحد على الأقل', 'error'); return; }
 
     document.getElementById('fetchBtn').disabled = true;
     document.getElementById('resultsCard').style.display = 'none';
@@ -354,18 +350,16 @@
       const filterPhone     = document.getElementById('filterPhone')?.value.trim() || '';
       const filterLSFrom    = document.getElementById('filterLastSyncFrom')?.value || '';
       const filterLSTo      = document.getElementById('filterLastSyncTo')?.value || '';
-      const filterUpdFrom   = document.getElementById('filterUpdatedFrom')?.value || '';
-      const filterUpdTo     = document.getElementById('filterUpdatedTo')?.value || '';
 
-      const params = new URLSearchParams({ status: filterStatus });
-      if (from) params.set('from', from);
-      if (to)   params.set('to', to);
+      const params = new URLSearchParams();
+      if (filterStatus) params.set('status', filterStatus);
+      if (from)         params.set('from', from);
+      if (to)           params.set('to', to);
       if (filterOrderName) params.set('orderName', filterOrderName);
       if (filterPhone)     params.set('phone', filterPhone);
       if (filterLSFrom)    params.set('lastSyncFrom', filterLSFrom);
       if (filterLSTo)      params.set('lastSyncTo', filterLSTo);
-      if (filterUpdFrom)   params.set('updatedFrom', filterUpdFrom);
-      if (filterUpdTo)     params.set('updatedTo', filterUpdTo);
+
 
       const res  = await fetch(`${workerUrl}/orders?${params.toString()}`);
       const data = await res.json();
@@ -672,7 +666,7 @@
     const dd = document.createElement('div');
     dd.className = 'filter-dropdown';
     dd.innerHTML = `
-      <div class="filter-dropdown-search"><input placeholder="بحث..." oninput="filterDropdownSearch(this)" /></div>
+      <div class="filter-dropdown-search"><input oninput="filterDropdownSearch(this)" /></div>
       <div class="filter-dropdown-list" id="dd-list">
         <div class="filter-dropdown-item">
           <input type="checkbox" id="dd-all" ${selected.size === allVals.length ? 'checked' : ''} onchange="ddToggleAll(this, ${colIdx})" />
